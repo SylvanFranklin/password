@@ -3,6 +3,10 @@
     import { invoke } from "@tauri-apps/api/tauri";
     export let lock: Function;
 
+    let appName = "";
+    let username = "";
+    let password = "";
+
     async function greet(message: string) {
         const response = await invoke("greet", { name: message });
     }
@@ -44,21 +48,24 @@
             type="text"
             class="bg-slate-200/10 p-2 rounded-lg outline-none"
             placeholder="App/Website Name"
+            bind:value={appName}
         />
         <input
             type="text"
             class="bg-slate-200/10 p-2 rounded-lg outline-none"
             placeholder="username"
+            bind:value={username}
         />
         <input
             type="text"
             class="bg-slate-200/10 p-2 rounded-lg outline-none"
             placeholder="password"
+            bind:value={password}
         />
         <button
             class="px-4 py-2 rounded-md bg-orange-400 w-min mx-auto hover:scale-95 duration-100 shadow-md"
-            on:click={() => invoke("greet", { name: "rust" })}>add</button
-        >
+            on:click={() => invoke("write_to_file", { appName, username, password})}
+        >add</button>
     </span>
 </form>
 
