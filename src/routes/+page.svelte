@@ -54,7 +54,7 @@
             />
             <button
                 class="px-4 py-2 rounded-md bg-orange-400 w-min mx-auto hover:scale-95 duration-100 shadow-md"
-                on:click={() => greet("hello, from svelte")}>add</button
+                on:click={() => invoke('greet', {name: 'rust'}) }>add</button
             >
         </span>
     </form>
