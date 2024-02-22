@@ -14,7 +14,7 @@
     <h3 class="text-center mb-2">
         {password.website}
     </h3>
-    <span class="rounded-md p-2 bg-slate-200/10 flex flex-row">
+    <span class="rounded-md p-2 bg-slate-200/10 flex flex-row items-center">
         {password.username}
         <button class="ml-auto hover:scale-90 duration-75">
             <svg
@@ -30,7 +30,7 @@
         </button>
     </span>
 
-    <span class="rounded-md p-2 bg-slate-200/10 flex flex-row">
+    <span class="rounded-md p-2 bg-slate-200/10 flex flex-row items-center">
         <p class="blur-md select-none hover:filter-none">
             {password.password}
         </p>
