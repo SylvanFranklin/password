@@ -42,6 +42,11 @@
         </h1>
 
         <span class="gap-3 flex flex-col">
+            <input 
+                type="text"
+                class="bg-slate-200/10 p-2 rounded-lg outline-none"
+                placeholder="App/Website Name"
+                >
             <input
                 type="text"
                 class="bg-slate-200/10 p-2 rounded-lg outline-none"
