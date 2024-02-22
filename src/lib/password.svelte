@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { writeText } from "@tauri-apps/api/clipboard";
     export let password: {
         username: string;
         password: string;
@@ -6,6 +7,9 @@
     };
     // thought that index, might be useful in numbering ??
     export let index: number;
+    const copy = async (text: string) => {
+        await writeText(text);
+    };
 </script>
 
 <div
@@ -16,7 +20,10 @@
     </h3>
     <span class="rounded-md p-2 bg-slate-200/10 flex flex-row items-center">
         {password.username}
-        <button class="ml-auto hover:scale-90 duration-75">
+        <button
+            class="ml-auto hover:scale-90 duration-75"
+            on:click={() => copy(password.username)}
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
@@ -34,7 +41,10 @@
         <p class="blur-md select-none hover:filter-none">
             {password.password}
         </p>
-        <button class="ml-auto hover:scale-90 duration-75">
+        <button
+            class="ml-auto hover:scale-90 duration-75"
+            on:click={() => copy(password.password)}
+        >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
