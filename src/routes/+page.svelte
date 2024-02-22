@@ -21,8 +21,8 @@
         },
         {
             website: "twitter",
-            username: "test2",
-            password: "test2",
+            username: "small username",
+            password: "a longer password for css testing",
         },
     ];
 </script>

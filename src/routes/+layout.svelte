@@ -12,7 +12,7 @@
     <!--     PASSWORD MANAGER -->
     <!-- </h1> -->
     {#if open}
-        <Page lock={() => (open = false)}/>
+        <Page lock={() => (open = false)} />
     {:else}
         <Dashboard open={() => (open = true)} />
     {/if}
