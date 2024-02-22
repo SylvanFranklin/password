@@ -13,7 +13,9 @@ cargo tauri dev
 - [ ] cleaner layout for passwords
 - [ ] fuzzy find
 - [ ] working copy button __(integration with system clipboard)__
+- [ ] blurring out passwords and click to reveal(frontend as it only exists to hide from other eyes)
 - [ ] hashing storage
+- [ ] password strength meter
 
 ### Further TODO
 
