@@ -1,2 +1,7 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<main class="flex flex-col w-full h-full mt-20 items-center">
+    <h1
+        class="text-5xl font-bold font-mono p-4 bg-blue-400 text-white rounded-lg shadow-lg"
+    >
+        PASSWORD MANAGER
+    </h1>
+</main>
