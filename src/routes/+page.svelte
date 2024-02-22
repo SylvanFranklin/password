@@ -1,6 +1,12 @@
 <script lang="ts">
     import Password from "$lib/password.svelte";
 
+    import { invoke } from "@tauri-apps/api/tauri";
+
+    async function greet(message: string) {
+        const response = await invoke("greet", { name: message });
+    }
+
     interface PasswordObject {
         website: string;
         username: string;
@@ -48,7 +54,7 @@
             />
             <button
                 class="px-4 py-2 rounded-md bg-orange-400 w-min mx-auto hover:scale-95 duration-100 shadow-md"
-                type="submit">add</button
+                on:click={() => greet("hello, from svelte")}>add</button
             >
         </span>
     </form>
