@@ -24,7 +24,9 @@
     >
         PASSWORD MANAGER
     </h1>
-    {#each passwords as password}
-        <Password {password} />
-    {/each}
+    <ol class="grid w-2/3 mt-20 gap-4">
+        {#each passwords as password}
+            <Password {password} />
+        {/each}
+    </ol>
 </main>
