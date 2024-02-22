@@ -3,7 +3,8 @@
 
 #[tauri::command]
 fn greet(name: &str) -> String {
-  format!("Hello, {} what is up
+  format!("Hello, {} what is up" , name)
+}
 
 fn main() {
   tauri::Builder::default()
