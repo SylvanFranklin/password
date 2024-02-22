@@ -37,7 +37,9 @@
 
     <p class="text-xl font-bold">Password</p>
     <span class="rounded-md p-2 bg-slate-200/10 flex flex-row">
-        {password.password}
+        <p class="blur-md select-none hover:filter-none">
+            {password.password}
+        </p>
         <button class="ml-auto">
             <svg
                 xmlns="http://www.w3.org/2000/svg"

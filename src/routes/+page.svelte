@@ -1,8 +1,7 @@
 <script lang="ts">
     import Password from "$lib/password.svelte";
-
-    export let lock: Function;
     import { invoke } from "@tauri-apps/api/tauri";
+    export let lock: Function;
 
     async function greet(message: string) {
         const response = await invoke("greet", { name: message });
