@@ -20,15 +20,15 @@
 
 <main class="grid gap-4 mt-10 w-2/3">
     <button
-        class="p-2 w-full shadow-md rounded-md text-xl font-mono text-white bg-slate-600/10 hover:brightness-110 hover:scale-90 duration-100"
+        class="p-2 w-full shadow-md rounded-md text-xl font-mono text-white bg-slate-600/10 hover:brightness-110 hover:scale-[.99] duration-100"
         on:click={() => invoke("create_if_not_exists")}
     >
         Open Vault
     </button>
-    <input 
-        class="p-2 w-full shadow-md rounded-md text-xl font-mono text-white bg-slate-600/10 hover:brightness-110 hover:scale-90 duration-100"
+    <input
+        class="p-2 w-full shadow-md rounded-md text-xl font-mono text-white bg-slate-600/10 hover:brightness-110 hover:scale-[.99] duration-100"
         type="password"
         placeholder="Encryption Key"
         bind:value={encryptionKey}
-    >
+    />
 </main>
