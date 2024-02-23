@@ -1,24 +1,36 @@
 <script lang="ts">
-    export let lock: Function;
     import Password from "$lib/password.svelte";
     import { invoke } from "@tauri-apps/api/tauri";
+    import { onMount } from "svelte";
+    export let lock: Function;
 
     let appName = "";
     let username = "";
     let password = "";
+    let passwords: Array<PasswordObject> = [];
 
-    const get_all_passwords = async () => {
-        const passwords = await invoke("get_all_passwords", {});
+    onMount(() => {
+        get_all_items();
+    });
+
+    async function get_all_items() {
+        const response: string[] = await invoke("get_all_items");
+
+        for (const entry of response) {
+            // convert entry into a JSON object
+            const entryObject = JSON.parse(entry) as PasswordObject;
+            passwords.push(entryObject);
+        }
+
         console.log(passwords);
-    };
+        passwords = [...passwords];
+    }
 
     interface PasswordObject {
-        website: string;
+        appname: string;
         username: string;
         password: string;
     }
-
-    const passwords: PasswordObject[] = [];
 </script>
 
 <button
@@ -57,10 +69,6 @@
             on:click={() =>
                 invoke("write_to_file", { appName, username, password })}
             >add</button
-        >
-        <button
-            class="px-4 py-2 rounded-md bg-red-400 w-min mx-auto hover:scale-95 duration-100 shadow-md"
-            on:click={() => get_all_passwords()}>test button</button
         >
     </span>
 </form>

@@ -1,13 +1,13 @@
 use serde::{Deserialize, Serialize};
-use serde_json;
+use serde_json::{self, json};
 use std::fs::{File, OpenOptions};
 use std::io::{self, prelude::*, SeekFrom};
 
 #[derive(Debug, Serialize, Deserialize)]
-struct PasswordEntry {
-    appname: String,
-    username: String,
-    password: String,
+pub struct PasswordEntry {
+    pub appname: String,
+    pub username: String,
+    pub password: String,
 }
 
 impl PasswordEntry {
@@ -21,15 +21,14 @@ impl PasswordEntry {
 }
 
 #[tauri::command]
-pub fn read_passwords() -> io::Result<Vec<PasswordEntry>> {
+fn read_passwords() -> io::Result<Vec<PasswordEntry>> {
     let file = File::open("passwords.json")?;
     let reader = io::BufReader::new(file);
     let passwords: Vec<PasswordEntry> = serde_json::from_reader(reader)?;
     Ok(passwords)
 }
 
-#[tauri::command]
-fn write_passwords(passwords: &[PasswordEntry]) -> io::Result<()> {
+pub fn write_passwords(passwords: &[PasswordEntry]) -> io::Result<()> {
     let file = OpenOptions::new()
         .write(true)
         .truncate(true)
@@ -44,8 +43,7 @@ fn get_all_passwords() -> io::Result<Vec<PasswordEntry>> {
     read_passwords()
 }
 
-#[tauri::command]
-fn add_password(entry: PasswordEntry) -> io::Result<()> {
+pub fn add_password(entry: PasswordEntry) -> io::Result<()> {
     let mut passwords = read_passwords().unwrap_or_else(|_| vec![]);
     passwords.push(entry);
     write_passwords(&passwords)?;
@@ -75,6 +73,23 @@ pub fn print_all_items() {
             appname, username, password
         );
     }
+}
+
+#[tauri::command]
+pub fn get_all_items() -> Vec<String> {
+    let mut items = vec![];
+    let passwords = get_all_passwords().unwrap_or_else(|_| vec![]);
+    for entry in passwords {
+        let (appname, username, password) = get_data(entry);
+        let json_data = json!({
+            "appname": appname,
+            "username": username,
+            "password": password
+        });
+
+        items.push(json_data.to_string());
+    }
+    items
 }
 
 // Example usage

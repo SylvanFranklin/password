@@ -1,9 +1,9 @@
 <script lang="ts">
     import { writeText } from "@tauri-apps/api/clipboard";
     export let password: {
+        appname: string;
         username: string;
         password: string;
-        website: string;
     };
     // thought that index, might be useful in numbering ??
     // export let index: number;
@@ -16,13 +16,13 @@
     class="flex bg-slate-600/10 shadow-lg w-full flex-col text-gray-200 p-4 gap-2 rounded-lg font-mono"
 >
     <h3 class="text-center mb-2">
-        {password.website}
+        {password.appname}
     </h3>
     <span class="rounded-md p-2 bg-slate-200/10 flex flex-row items-center">
         {password.username}
         <button
             class="ml-auto hover:scale-90 duration-75"
-            on:click={() => copy(password.username)}
+            on:click={() => copy(password.appname)}
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"
