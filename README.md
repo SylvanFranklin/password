@@ -11,12 +11,12 @@ cargo tauri dev
 
 - [ ] password generator
 - [ ] cleaner layout for passwords
-- [ ] fuzzy find
+- [ ] fuzzy find (working)
 - [ ] animation on copy button 
 - [ ] hashing storage
 - [ ] password strength meter
-- [x] blurring out passwords and click to reveal(frontend as it only exists to hide from other eyes)
-- [x] working copy button __(integration with system clipboard)__
+- [ ] dark mode and theming settings with cache
+- [ ] borderless / custom border window 
 
 ### Further TODO
 
