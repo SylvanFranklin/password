@@ -16,6 +16,7 @@ impl PasswordEntry {
     }
 }
 
+#[tauri::command]
 fn read_passwords() -> io::Result<Vec<PasswordEntry>> {
     let file = File::open("passwords.json")?;
     let reader = io::BufReader::new(file);
@@ -23,6 +24,7 @@ fn read_passwords() -> io::Result<Vec<PasswordEntry>> {
     Ok(passwords)
 }
 
+#[tauri::command]
 fn write_passwords(passwords: &[PasswordEntry]) -> io::Result<()> {
     let file = OpenOptions::new()
         .write(true)
@@ -33,10 +35,12 @@ fn write_passwords(passwords: &[PasswordEntry]) -> io::Result<()> {
     Ok(())
 }
 
+#[tauri::command]
 fn get_all_passwords() -> io::Result<Vec<PasswordEntry>> {
     read_passwords()
 }
 
+#[tauri::command]
 fn add_password(entry: PasswordEntry) -> io::Result<()> {
     let mut passwords = read_passwords().unwrap_or_else(|_| vec![]);
     passwords.push(entry);
@@ -44,6 +48,7 @@ fn add_password(entry: PasswordEntry) -> io::Result<()> {
     Ok(())
 }
 
+#[tauri::command]
 fn delete_password(appname: &str) -> io::Result<()> {
     let mut passwords = read_passwords().unwrap_or_else(|_| vec![]);
     passwords.retain(|entry| entry.appname != appname);
@@ -51,11 +56,12 @@ fn delete_password(appname: &str) -> io::Result<()> {
     Ok(())
 }
 
+#[tauri::command]
 fn get_data(entry: PasswordEntry) -> (String, String, String) {
     (entry.appname, entry.username, entry.password)
 }
 
-fn main() -> io::Result<()> {
+// Example usage
     //let passwords = get_all_passwords()?;
     //println!("Current passwords: {:?}", passwords);
 
@@ -67,12 +73,9 @@ fn main() -> io::Result<()> {
     //delete_password("ExampleApp")?;
 
     // Read passwords again after modifications
-    let passwords = get_all_passwords()?;
+    //let passwords = get_all_passwords()?;
     //format passwords vector by new line
-    for entry in passwords {
-        let (appname, username, password) = get_data(entry);
-        println!("Appname: {}\nUsername: {}\nPassword: {}\n", appname, username, password);
-    }
-
-    Ok(())
-}
+    //for entry in passwords {
+    //    let (appname, username, password) = get_data(entry);
+    //    println!("Appname: {}\nUsername: {}\nPassword: {}\n", appname, username, password);
+    //}
