@@ -1,15 +1,16 @@
 <script lang="ts">
+    export let lock: Function;
     import Password from "$lib/password.svelte";
     import { invoke } from "@tauri-apps/api/tauri";
-    export let lock: Function;
 
     let appName = "";
     let username = "";
     let password = "";
 
-    async function greet(message: string) {
-        const response = await invoke("greet", { name: message });
-    }
+    const get_all_passwords = async () => {
+        const passwords = await invoke("get_all_passwords", {});
+        console.log(passwords);
+    };
 
     interface PasswordObject {
         website: string;
@@ -17,18 +18,7 @@
         password: string;
     }
 
-    const passwords: PasswordObject[] = [
-        {
-            website: "facebook",
-            username: "test",
-            password: "test",
-        },
-        {
-            website: "twitter",
-            username: "small username",
-            password: "a longer password for css testing",
-        },
-    ];
+    const passwords: PasswordObject[] = [];
 </script>
 
 <button
@@ -64,17 +54,19 @@
         />
         <button
             class="px-4 py-2 rounded-md bg-orange-400 w-min mx-auto hover:scale-95 duration-100 shadow-md"
-            on:click={() => invoke("write_to_file", { appName, username, password})}
-        >add</button>
+            on:click={() =>
+                invoke("write_to_file", { appName, username, password })}
+            >add</button
+        >
         <button
             class="px-4 py-2 rounded-md bg-red-400 w-min mx-auto hover:scale-95 duration-100 shadow-md"
-            on:click={() => invoke("print_all_items")}
-        >test button</button>
+            on:click={() => get_all_passwords()}>test button</button
+        >
     </span>
 </form>
 
 <ol class="grid w-2/3 mt-20 gap-6">
-    {#each passwords as password, index}
-        <Password {password} index={index + 1} />
+    {#each passwords as password}
+        <Password {password} />
     {/each}
 </ol>

@@ -6,7 +6,7 @@
         website: string;
     };
     // thought that index, might be useful in numbering ??
-    export let index: number;
+    // export let index: number;
     const copy = async (text: string) => {
         await writeText(text);
     };

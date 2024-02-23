@@ -1,7 +1,7 @@
+use serde::{Deserialize, Serialize};
+use serde_json;
 use std::fs::{File, OpenOptions};
 use std::io::{self, prelude::*, SeekFrom};
-use serde::{Serialize, Deserialize};
-use serde_json;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct PasswordEntry {
@@ -12,12 +12,16 @@ struct PasswordEntry {
 
 impl PasswordEntry {
     fn new(appname: String, username: String, password: String) -> Self {
-        PasswordEntry { appname, username, password }
+        PasswordEntry {
+            appname,
+            username,
+            password,
+        }
     }
 }
 
 #[tauri::command]
-fn read_passwords() -> io::Result<Vec<PasswordEntry>> {
+pub fn read_passwords() -> io::Result<Vec<PasswordEntry>> {
     let file = File::open("passwords.json")?;
     let reader = io::BufReader::new(file);
     let passwords: Vec<PasswordEntry> = serde_json::from_reader(reader)?;
@@ -66,25 +70,28 @@ pub fn print_all_items() {
     let passwords = get_all_passwords().unwrap_or_else(|_| vec![]);
     for entry in passwords {
         let (appname, username, password) = get_data(entry);
-        println!("Appname: {}\nUsername: {}\nPassword: {}\n", appname, username, password);
+        println!(
+            "Appname: {}\nUsername: {}\nPassword: {}\n",
+            appname, username, password
+        );
     }
 }
 
 // Example usage
-    //let passwords = get_all_passwords()?;
-    //println!("Current passwords: {:?}", passwords);
+//let passwords = get_all_passwords()?;
+//println!("Current passwords: {:?}", passwords);
 
-    // Add a new password entry
-    //let new_entry = PasswordEntry::new("Google".to_string(), "userme".to_string(), "tdasdd".to_string());
-    //add_password(new_entry)?;
+// Add a new password entry
+//let new_entry = PasswordEntry::new("Google".to_string(), "userme".to_string(), "tdasdd".to_string());
+//add_password(new_entry)?;
 
-    // Delete an existing password entry
-    //delete_password("ExampleApp")?;
+// Delete an existing password entry
+//delete_password("ExampleApp")?;
 
-    // Read passwords again after modifications
-    //let passwords = get_all_passwords()?;
-    //format passwords vector by new line
-    //for entry in passwords {
-    //    let (appname, username, password) = get_data(entry);
-    //    println!("Appname: {}\nUsername: {}\nPassword: {}\n", appname, username, password);
-    //}
+// Read passwords again after modifications
+//let passwords = get_all_passwords()?;
+//format passwords vector by new line
+//for entry in passwords {
+//    let (appname, username, password) = get_data(entry);
+//    println!("Appname: {}\nUsername: {}\nPassword: {}\n", appname, username, password);
+//}
