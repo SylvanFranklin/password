@@ -61,6 +61,15 @@ fn get_data(entry: PasswordEntry) -> (String, String, String) {
     (entry.appname, entry.username, entry.password)
 }
 
+#[tauri::command]
+pub fn print_all_items() {
+    let passwords = get_all_passwords().unwrap_or_else(|_| vec![]);
+    for entry in passwords {
+        let (appname, username, password) = get_data(entry);
+        println!("Appname: {}\nUsername: {}\nPassword: {}\n", appname, username, password);
+    }
+}
+
 // Example usage
     //let passwords = get_all_passwords()?;
     //println!("Current passwords: {:?}", passwords);

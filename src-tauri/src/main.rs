@@ -24,8 +24,9 @@ fn write_to_file(app_name: &str, username: &str, password: &str) {
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![write_to_file])// json interactions
-        .invoke_handler(tauri::generate_handler![check_if_json_file_exists, create_if_not_exists])
+        .invoke_handler(tauri::generate_handler![write_to_file])// main interactions
+        .invoke_handler(tauri::generate_handler![check_if_json_file_exists, create_if_not_exists]) // json detection interactions
+        .invoke_handler(tauri::generate_handler![print_all_items, write_to_file]) // json creation interactions
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
