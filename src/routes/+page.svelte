@@ -67,7 +67,11 @@
         <button
             class="px-4 py-2 rounded-md bg-orange-400 w-min mx-auto hover:scale-95 duration-100 shadow-md"
             on:click={() =>
-                invoke("write_to_file", { appName, username, password })}
+                invoke("write_to_file", {
+                    appName,
+                    username,
+                    password
+                })}
             >add</button
         >
     </span>
