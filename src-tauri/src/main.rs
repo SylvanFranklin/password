@@ -1,3 +1,6 @@
+use once_cell::sync::OnceCell;
+static PASSWORD: OnceCell<String> = OnceCell::new();
+
 use crate::file_checker::create_if_not_exists;
 use crate::json_passwords::{get_all_items, password_entry_from_frontend};
 use crate::hash_options::{write_hash_to_file, compare_password};
@@ -15,8 +18,21 @@ mod json_passwords;
 // check if json file exists wrapper
 #[tauri::command]
 fn file_check(new_password: String) {
-    println!("Checking if file exists");
+    // check if json file exists
     create_if_not_exists(&new_password);
+    println!("File check complete");
+
+    // store password in memory so it stays in scope
+    PASSWORD.set(new_password).unwrap();
+    test();
+}
+
+fn test() {
+    if let Some(password) = PASSWORD.get() {
+        println!("password is: {}", password);
+    } else {
+        println!("password not set");
+    }
 }
 
 // -------------------------------------------------------
