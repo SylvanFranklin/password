@@ -32,16 +32,20 @@
     }
 </script>
 
-<button
-    class="p-2 w-min shadow-md rounded-md text-xl font-mono text-white bg-slate-600/10 hover:brightness-110 hover:scale-90 duration-100 absolute left-10 top-10"
-    on:click={() => lock()}
-    >Lock
+<nav class="bg-slate-600/10 h-20 w-full absolute top-0 flex flex-row">
+<button class="text-white font-mono flex p-4 items-center gap-2">
+<span class="text-white">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M9.5 16q-2.725 0-4.612-1.888T3 9.5q0-2.725 1.888-4.612T9.5 3q2.725 0 4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l5.6 5.6q.275.275.275.7t-.275.7q-.275.275-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95T9.5 16m0-2q1.875 0 3.188-1.312T14 9.5q0-1.875-1.312-3.187T9.5 5Q7.625 5 6.313 6.313T5 9.5q0 1.875 1.313 3.188T9.5 14"/></svg>
+</span>
 </button>
-<button
-    class="p-2 w-min shadow-md rounded-md text-xl font-mono text-white bg-red-600/30 hover:brightness-110 hover:scale-90 duration-100 absolute right-10 top-10"
-    on:click={() => get_all_items()}
-    >refresh
+<button class="ml-auto mr-2 text-white font-mono flex p-4 items-center gap-2">
+<span class="text-white">
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M13 14h2v-3h3V9h-3V6h-2v3h-3v2h3zm-5 4q-.825 0-1.412-.587T6 16V4q0-.825.588-1.412T8 2h12q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18zm0-2h12V4H8zm-4 6q-.825 0-1.412-.587T2 20V6h2v14h14v2zM8 4v12z"/></svg>
+</span>
 </button>
+
+</nav>
+
 <form
     class=" w-2/3 flex bg-slate-600/10 shadow-lg flex-col text-gray-200 p-4 gap-2 rounded-lg font-mono mt-10"
 >
