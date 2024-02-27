@@ -75,7 +75,6 @@ pub fn print_all_items() {
     }
 }
 
-#[tauri::command]
 pub fn get_all_items() -> Vec<String> {
     let mut items = vec![];
     let passwords = get_all_passwords().unwrap_or_else(|_| vec![]);

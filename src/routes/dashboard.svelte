@@ -8,7 +8,7 @@
     let encryptionKey: string;
 
     const openApp = () => {
-        invoke("create_if_not_exists");
+        invoke("file_check");
         open();
     };
 </script>

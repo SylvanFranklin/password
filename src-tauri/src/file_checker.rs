@@ -1,14 +1,12 @@
 use std::fs::File;
 use std::io::prelude::*;
 
-#[tauri::command]
 pub fn check_if_json_file_exists() -> bool {
     let path = std::path::Path::new("passwords.json");
     println!("{}", path.exists());
     path.exists()
 }
 
-#[tauri::command]
 pub fn create_if_not_exists() {
     if !check_if_json_file_exists() {
         print!("Creating json file passwords.json");

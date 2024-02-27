@@ -14,7 +14,7 @@
     });
 
     async function get_all_items() {
-        const response: string[] = await invoke("get_all_items");
+        const response: string[] = await invoke("get_json_items");
 
         for (const entry of response) {
             // convert entry into a JSON object
