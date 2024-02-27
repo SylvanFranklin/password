@@ -3,7 +3,6 @@
     import { invoke } from "@tauri-apps/api/tauri";
     import { onMount } from "svelte";
     export let lock: Function;
-
     let appName = "";
     let username = "";
     let password = "";
@@ -14,6 +13,7 @@
     });
 
     async function get_all_items() {
+        passwords = [];
         const response: string[] = await invoke("get_json_items");
 
         for (const entry of response) {
@@ -22,7 +22,6 @@
             passwords.push(entryObject);
         }
 
-        console.log(passwords);
         passwords = [...passwords];
     }
 
@@ -37,6 +36,11 @@
     class="p-2 w-min shadow-md rounded-md text-xl font-mono text-white bg-slate-600/10 hover:brightness-110 hover:scale-90 duration-100 absolute left-10 top-10"
     on:click={() => lock()}
     >Lock
+</button>
+<button
+    class="p-2 w-min shadow-md rounded-md text-xl font-mono text-white bg-red-600/30 hover:brightness-110 hover:scale-90 duration-100 absolute right-10 top-10"
+    on:click={() => get_all_items()}
+    >refresh
 </button>
 <form
     class=" w-2/3 flex bg-slate-600/10 shadow-lg flex-col text-gray-200 p-4 gap-2 rounded-lg font-mono mt-10"
@@ -66,13 +70,14 @@
         />
         <button
             class="px-4 py-2 rounded-md bg-orange-400 w-min mx-auto hover:scale-95 duration-100 shadow-md"
-            on:click={() =>
+            on:click={() => {
                 invoke("write_to_file", {
                     appName,
                     username,
-                    password
-                })}
-            >add</button
+                    password,
+                });
+                get_all_items();
+            }}>add</button
         >
     </span>
 </form>
