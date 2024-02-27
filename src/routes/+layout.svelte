@@ -31,9 +31,9 @@
     <!-- > -->
     <!--     PASSWORD MANAGER -->
     <!-- </h1> -->
-    {#if open}
         <Page lock={() => (open = false)} />
-    {:else}
-        <Dashboard open={() => (open = true)} />
-    {/if}
+    <!-- {#if open} -->
+    <!-- {:else} -->
+    <!--     <Dashboard open={() => (open = true)} /> -->
+    <!-- {/if} -->
 </main>
