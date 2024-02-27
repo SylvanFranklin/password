@@ -15,6 +15,15 @@ pub fn check_if_json_file_exists() -> bool {
 
 pub fn create_if_not_exists() {
     if !check_if_json_file_exists() {
+
+        //create 'PasswordManager' directory if it doesn't exist
+        let home_dir = env::var("HOME").expect("Failed to get home directory");
+        let dir_path = format!("{}/Desktop/PasswordManager", home_dir);
+        let path = Path::new(&dir_path);
+        if !path.exists() {
+            std::fs::create_dir_all(&path).expect("Failed to create directory");
+        }
+    
         print!("Creating json file passwords.json");
         let home_dir = env::var("HOME").expect("Failed to get home directory");
         let mut file: File = File::create(&format!("{}/Desktop/PasswordManager/passwords.json", home_dir)).unwrap();
