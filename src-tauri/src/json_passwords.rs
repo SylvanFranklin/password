@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::{self, json};
 use std::fs::{File, OpenOptions};
 use std::io::{self, prelude::*, SeekFrom};
+use std::env;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PasswordEntry {
@@ -22,17 +23,19 @@ impl PasswordEntry {
 
 #[tauri::command]
 pub fn read_passwords() -> io::Result<Vec<PasswordEntry>> {
-    let file = File::open("passwords.json")?;
+    let home_dir = env::var("HOME").expect("Failed to get home directory");
+    let file = File::open(&format!("{}/Desktop/PasswordManager/passwords.json", home_dir))?;
     let reader = io::BufReader::new(file);
     let passwords: Vec<PasswordEntry> = serde_json::from_reader(reader)?;
     Ok(passwords)
 }
 
 pub fn write_passwords(passwords: &[PasswordEntry]) -> io::Result<()> {
+    let home_dir = env::var("HOME").expect("Failed to get home directory");
     let file = OpenOptions::new()
         .write(true)
         .truncate(true)
-        .open("passwords.json")?;
+        .open(&format!("{}/Desktop/PasswordManager/passwords.json", home_dir))?;
 
     serde_json::to_writer_pretty(file, &passwords)?;
     Ok(())
