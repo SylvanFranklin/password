@@ -5,7 +5,7 @@ use std::io::prelude::*;
 use std::io::{self, BufRead};
 use sha256::digest;
 
-fn write_hash_to_file(password: &str) {
+pub fn write_hash_to_file(password: &str) {
     // take password and hash it using sha256, replace previous hash in file
     let hash = sha256::digest(password.as_bytes());
     let home_dir = env::var("HOME").unwrap();
@@ -20,7 +20,7 @@ fn write_hash_to_file(password: &str) {
     println!("Hash written to file");
 }
 
-fn compare_password(password: &str) -> bool {
+pub fn compare_password(password: &str) -> bool {
     let home_dir = env::var("HOME").unwrap();
     let dir_path = format!("{}/Desktop/PasswordManager", home_dir);
     let path = format!("{}/hash.txt", dir_path);

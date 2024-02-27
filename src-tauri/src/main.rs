@@ -1,17 +1,27 @@
 use crate::file_checker::create_if_not_exists;
 use crate::json_passwords::{get_all_items, password_entry_from_frontend};
+use crate::hash_options::{write_hash_to_file, compare_password};
+mod hash_options;
 mod file_checker;
 mod json_passwords;
 
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #[cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+// -------------------------------------------------------
+// FILE CHECKER OPERATIONS
+// -------------------------------------------------------
+
 // check if json file exists wrapper
 #[tauri::command]
-fn file_check() {
+fn file_check(new_password: &str) {
     println!("Checking if file exists");
-    create_if_not_exists();
+    create_if_not_exists(new_password);
 }
+
+// -------------------------------------------------------
+// JSON DB OPERATIONS
+// -------------------------------------------------------
 
 // write password to json file wrapper
 #[tauri::command]
@@ -26,7 +36,11 @@ fn get_json_items() -> Vec<String> {
     get_all_items()
 }
 
-//main app builders
+// -------------------------------------------------------
+// MAIN APP BUILDERS
+// -------------------------------------------------------
+
+//main app builder method
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![

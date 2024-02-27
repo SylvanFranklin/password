@@ -2,6 +2,8 @@ use std::fs::File;
 use std::path::Path;
 use std::env;
 use std::io::prelude::*;
+use crate::hash_options::{write_hash_to_file, compare_password};
+
 
 pub fn check_if_json_file_exists() -> bool {
     let home_dir = env::var("HOME").expect("Failed to get home directory");
@@ -13,7 +15,7 @@ pub fn check_if_json_file_exists() -> bool {
     path.exists() && hash_path.exists()
 }
 
-pub fn create_if_not_exists() {
+pub fn create_if_not_exists(new_password: &str) {
     if !check_if_json_file_exists() {
 
         //create 'PasswordManager' directory if it doesn't exist
@@ -32,7 +34,14 @@ pub fn create_if_not_exists() {
         print!("Creating hash file hash.txt");
         let mut hash_file: File = File::create(&format!("{}/Desktop/PasswordManager/hash.txt", home_dir)).unwrap();
         hash_file.write_all(b"hello world!").unwrap();
+
+        //write new password to hash file
+        write_hash_to_file(new_password);
     } else {
         print!("File already exists");
+        
+        //compare new password to hash file
+        let result: bool = compare_password(new_password);
+        println!("Password matches: {}", result);
     }
 }
