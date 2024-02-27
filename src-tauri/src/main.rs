@@ -14,9 +14,9 @@ mod json_passwords;
 
 // check if json file exists wrapper
 #[tauri::command]
-fn file_check(new_password: &str) {
+fn file_check(new_password: String) {
     println!("Checking if file exists");
-    create_if_not_exists(new_password);
+    create_if_not_exists(&new_password);
 }
 
 // -------------------------------------------------------
