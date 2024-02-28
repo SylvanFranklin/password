@@ -1,12 +1,17 @@
 /** @type {import('tailwindcss').Config}*/
 const config = {
-  content: ["./src/**/*.{html,js,svelte,ts}"],
+    content: ["./src/**/*.{html,js,svelte,ts}"],
 
-  theme: {
-    extend: {},
-  },
+    // all gradients optionts have to be safelisted
+    safelist: [
 
-  plugins: [],
+    ],
+
+    theme: {
+        extend: {},
+    },
+
+    plugins: [],
 };
 
 module.exports = config;

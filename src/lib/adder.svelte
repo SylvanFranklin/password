@@ -2,21 +2,14 @@
     export let get_all_items: Function;
     import { invoke } from "@tauri-apps/api/tauri";
     import { quintIn, quintOut } from "svelte/easing";
-    import { fly, scale } from "svelte/transition";
+    import { fly, scale, slide } from "svelte/transition";
     let appName = "";
     let username = "";
     let password = "";
 </script>
 
 <form
-    transition:fly={{
-        duration: 266,
-        delay: 10,
-        y: 700,
-    }}
-    
-    class="w-2/3 flex bg-slate-600/10 shadow-lg flex-col text-gray-200 p-4 gap-2 rounded-lg font-mono absolute"
-
+    class="flex bg-slate-600/10 shadow-lg flex-col text-gray-200 p-4 gap-2 rounded-lg font-mono"
 >
     <h1 class="font-mono text-xl text-white mx-auto outline-none">
         Add Password

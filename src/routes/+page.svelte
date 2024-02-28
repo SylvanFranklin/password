@@ -4,7 +4,7 @@
     import Fuse from "fuse.js";
     import { invoke } from "@tauri-apps/api/tauri";
     import { onMount } from "svelte";
-    import { fade, slide } from "svelte/transition";
+    import { fade, fly, slide } from "svelte/transition";
 
     export let lock: Function;
 
@@ -60,10 +60,10 @@
 </script>
 
 <nav
-    class="bg-slate-600/10 h-20 w-full absolute top-0 flex flex-row items-center"
+    class="bg-slate-600/10 w-full absolute top-0 flex flex-row items-center pt-4 pb-2 px-2"
 >
     <button
-        class="text-white font-mono flex p-4 items-center gap-2"
+        class="text-white font-mono flex p-4 items-center gap-2 hover:scale-110 duration-200"
         on:click={() => {
             adderActive = !adderActive;
         }}
@@ -99,7 +99,7 @@
         />
     {/if}
     <button
-        class="ml-auto mr-2 text-white font-mono flex p-4 items-center gap-2"
+        class="ml-auto mr-2 text-white font-mono flex p-4 items-center gap-2 hover:scale-110 duration-200"
         on:click={() => {
             adderActive = !adderActive;
         }}
@@ -120,13 +120,15 @@
 </nav>
 
 {#if adderActive}
-    <Adder get_all_items={() => get_all_items()} />
+    <span class="mt-20 w-2/3">
+        <Adder get_all_items={() => get_all_items()} />
+    </span>
 {:else}
-    <ol class="grid w-2/3 mt-20 gap-6">
-        {#each highlightedSearchItems as password, index}
-            <span transition:fade={{ duration: 100 * (index+1), delay: 10*(index+2)}}>
+    <span class="mt-20 w-2/3">
+        <ol class="grid gap-6">
+            {#each highlightedSearchItems as password, index}
                 <Password {password} {query} />
-            </span>
-        {/each}
-    </ol>
+            {/each}
+        </ol>
+    </span>
 {/if}
