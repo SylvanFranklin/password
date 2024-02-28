@@ -9,7 +9,7 @@ fn derive_key_from_password(password: &[u8], salt: &[u8]) -> [u8; 32] {
     key
 }
 
-fn aes_encrypt(password: &[u8], plaintext: &[u8]) -> String {
+pub fn aes_encrypt(password: &[u8], plaintext: &[u8]) -> String {
     let key = derive_key_from_password(password, b"salt1234"); // Use a random salt
     let cipher = Cipher::aes_256_cbc();
     let mut iv = [0; 16]; // Create an array to hold the IV
@@ -26,7 +26,7 @@ fn aes_encrypt(password: &[u8], plaintext: &[u8]) -> String {
     base64::encode(&result)
 }
 
-fn aes_decrypt(password: &[u8], ciphertext_with_iv: &str) -> Vec<u8> {
+pub fn aes_decrypt(password: &[u8], ciphertext_with_iv: &str) -> Vec<u8> {
     let key = derive_key_from_password(password, b"salt1234"); // Use the same salt
     let cipher = Cipher::aes_256_cbc();
 
@@ -40,14 +40,14 @@ fn aes_decrypt(password: &[u8], ciphertext_with_iv: &str) -> Vec<u8> {
     decrypt(cipher, &key, Some(iv), ciphertext).unwrap()
 }
 
-fn main() {
-    let password = b"my_secure_password";
-    let plaintext = b"Hello, world!";
-    
-
-    let ciphertext_with_iv = aes_encrypt(password, plaintext);
-    println!("Encrypted (Base64): {:?}", ciphertext_with_iv);
-
-    let decrypted = aes_decrypt(password, &ciphertext_with_iv);
-    println!("Decrypted: {:?}", String::from_utf8_lossy(&decrypted));
-}
+//fn main() {
+//    let password = b"my_secure_password";
+//    let plaintext = b"Hello, world!";
+//    
+//
+//    let ciphertext_with_iv = aes_encrypt(password, plaintext);
+//    println!("Encrypted (Base64): {:?}", ciphertext_with_iv);
+//
+//    let decrypted = aes_decrypt(password, &ciphertext_with_iv);
+//    println!("Decrypted: {:?}", String::from_utf8_lossy(&decrypted));
+//}
