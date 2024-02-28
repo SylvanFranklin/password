@@ -4,7 +4,6 @@
     import { invoke } from "@tauri-apps/api/tauri";
     import { onMount } from "svelte";
     export let lock: Function;
-
     let passwords: Array<PasswordObject> = [];
     let highlightedSearchItems: Array<PasswordObject> = [];
     let query = "";
@@ -13,6 +12,7 @@
     let password = "";
     let adderActive = false;
     let fuser: Fuse<PasswordObject>;
+
     onMount(async () => {
         await get_all_items();
         highlightedSearchItems = [...passwords];
@@ -38,16 +38,18 @@
         }
     }
 
+ 
     async function get_all_items() {
         passwords = [];
         const response: string[] = await invoke("get_json_items");
 
         for (const entry of response) {
-            // convert entry into a JSON object
             const entryObject = JSON.parse(entry) as PasswordObject;
             passwords.push(entryObject);
         }
+
         passwords = [...passwords];
+        highlightedSearchItems = [...passwords];
     }
 
     interface PasswordObject {
@@ -124,11 +126,17 @@
                 type="text"
                 class="bg-slate-200/10 p-2 rounded-lg outline-none"
                 placeholder="App/Website Name"
+                autoCapitalize="off"
+                spellCheck="false"
+                autoCorrect="off"
                 bind:value={appName}
             />
             <input
                 type="text"
                 class="bg-slate-200/10 p-2 rounded-lg outline-none"
+                autoCapitalize="off"
+                spellCheck="false"
+                autoCorrect="off"
                 placeholder="username"
                 bind:value={username}
             />
@@ -136,6 +144,9 @@
                 type="text"
                 class="bg-slate-200/10 p-2 rounded-lg outline-none"
                 placeholder="password"
+                autoCapitalize="off"
+                spellCheck="false"
+                autoCorrect="off"
                 bind:value={password}
             />
             <button
