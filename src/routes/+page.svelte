@@ -5,6 +5,7 @@
     import { invoke } from "@tauri-apps/api/tauri";
     import { onMount } from "svelte";
     import { fade, fly, slide } from "svelte/transition";
+    import { quadIn } from "svelte/easing";
 
     export let lock: Function;
 
@@ -86,9 +87,9 @@
         <!-- svelte-ignore a11y-autofocus -->
         <input
             type="text"
-            class="bg-slate-200/5 p-3 rounded-lg outline-none h-12 placeholder-gray-200/20 overflow-x-scroll w-full text-gray-200"
+            class="bg-slate-200/5 p-4 rounded-lg outline-none h-12 placeholder-gray-200/20 overflow-x-scroll w-full text-gray-200 text-xl font-mono"
             placeholder="search passwords"
-            transition:slide={{ duration: 300, delay: 10, axis: "x" }}
+            transition:slide={{ duration: 400, delay: 0, axis: "x" }}
             bind:value={query}
             autocomplete="off"
             autofocus={true}
@@ -97,6 +98,8 @@
             spellcheck="false"
             on:input|preventDefault={formChange}
         />
+    {:else}
+        <Adder get_all_items={() => get_all_items()} />
     {/if}
     <button
         class="ml-auto mr-2 text-white font-mono flex p-4 items-center gap-2 hover:scale-110 duration-200"
@@ -119,11 +122,7 @@
     </button>
 </nav>
 
-{#if adderActive}
-    <span class="mt-20 w-2/3">
-        <Adder get_all_items={() => get_all_items()} />
-    </span>
-{:else}
+{#if !adderActive}
     <span class="mt-20 w-2/3">
         <ol class="grid gap-6">
             {#each highlightedSearchItems as password, index}
