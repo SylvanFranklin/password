@@ -4,6 +4,8 @@
     import Fuse from "fuse.js";
     import { invoke } from "@tauri-apps/api/tauri";
     import { onMount } from "svelte";
+    import { fade, slide } from "svelte/transition";
+
     export let lock: Function;
 
     let passwords: Array<PasswordObject> = [];
@@ -60,7 +62,12 @@
 <nav
     class="bg-slate-600/10 h-20 w-full absolute top-0 flex flex-row items-center"
 >
-    <button class="text-white font-mono flex p-4 items-center gap-2">
+    <button
+        class="text-white font-mono flex p-4 items-center gap-2"
+        on:click={() => {
+            adderActive = !adderActive;
+        }}
+    >
         <span class="text-white">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -81,6 +88,7 @@
             type="text"
             class="bg-slate-200/5 p-3 rounded-lg outline-none h-12 placeholder-gray-200/20 overflow-x-scroll w-full text-gray-200"
             placeholder="search passwords"
+            transition:slide={{ duration: 300, delay: 10, axis: "x" }}
             bind:value={query}
             autocomplete="off"
             autofocus={true}
@@ -115,8 +123,10 @@
     <Adder get_all_items={() => get_all_items()} />
 {:else}
     <ol class="grid w-2/3 mt-20 gap-6">
-        {#each highlightedSearchItems as password}
-            <Password {password} {query} />
+        {#each highlightedSearchItems as password, index}
+            <span transition:fade={{ duration: 100 * (index+1), delay: 10*(index+2)}}>
+                <Password {password} {query} />
+            </span>
         {/each}
     </ol>
 {/if}
