@@ -43,7 +43,7 @@
     class="flex bg-slate-600/20 shadow-lg w-full flex-row text-gray-200 gap-2 rounded-lg font-mono lg:w-3/4 mx-auto items-center p-2 overflow-clip"
 >
     <h3
-        class={`text-center bg-gradient-to-t h-full flex items-center rounded-l-md w-32 px-3 bg-blue-400/20`}
+        class={`text-center bg-gradient-to-t h-full flex items-center rounded-l-md w-1/4 px-3 bg-blue-400/20 overflow-clip`}
     >
         {@html highlightMatch(query, password.appname)}
     </h3>

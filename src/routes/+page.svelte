@@ -5,7 +5,6 @@
     import { invoke } from "@tauri-apps/api/tauri";
     import { onMount } from "svelte";
     import { fade, fly, slide } from "svelte/transition";
-    import { quadIn } from "svelte/easing";
 
     export let lock: Function;
 
