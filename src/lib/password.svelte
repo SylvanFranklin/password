@@ -69,9 +69,9 @@
     </span>
 
     <span
-        class="rounded-md p-2 bg-slate-200/10 flex-row flex items-center w-1/3 overflow-clip text-nowrap"
+        class="rounded-md p-2 bg-slate-200/10 flex-row flex items-center w-1/3 text-nowrap"
     >
-        <p class="blur-md select-none hover:filter-none overflow-clip h-10">
+        <p class="blur-md select-none hover:filter-none overflow-clip w-full">
             {password.password}
         </p>
         <button
