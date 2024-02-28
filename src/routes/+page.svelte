@@ -4,7 +4,7 @@
     import Fuse from "fuse.js";
     import { invoke } from "@tauri-apps/api/tauri";
     import { onMount } from "svelte";
-    import { fade, slide } from "svelte/transition";
+    import { fade, fly, slide } from "svelte/transition";
 
     export let lock: Function;
 
@@ -120,13 +120,17 @@
 </nav>
 
 {#if adderActive}
-    <Adder get_all_items={() => get_all_items()} />
+    <span
+        class="mt-20 w-2/3"
+    >
+        <Adder get_all_items={() => get_all_items()} />
+    </span>
 {:else}
-    <ol class="grid w-2/3 mt-20 gap-6">
-        {#each highlightedSearchItems as password, index}
-            <span transition:fade={{ duration: 100 * (index+1), delay: 10*(index+2)}}>
+    <span class="mt-20 w-2/3">
+        <ol class="grid gap-6">
+            {#each highlightedSearchItems as password, index}
                 <Password {password} {query} />
-            </span>
-        {/each}
-    </ol>
+            {/each}
+        </ol>
+    </span>
 {/if}
