@@ -51,7 +51,9 @@ fn write_to_file(app_name: &str, username: &str, password: &str) {
 // get all items from json file wrapper
 #[tauri::command]
 fn get_json_items() -> Vec<String> {
-    get_all_items()
+    let encryption_password = PASSWORD.get().unwrap();
+    println!("password is: {}", encryption_password);
+    get_all_items(encryption_password)
 }
 
 // -------------------------------------------------------

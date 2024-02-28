@@ -81,11 +81,15 @@ pub fn print_all_items() {
     }
 }
 
-pub fn get_all_items() -> Vec<String> {
+pub fn get_all_items(encryption_password: &str) -> Vec<String> {
     let mut items = vec![];
+    println!("password backend is: {}", encryption_password);
     let passwords = get_all_passwords().unwrap_or_else(|_| vec![]);
     for entry in passwords {
         let (appname, username, password) = get_data(entry);
+        let appname: String= aes_decrypt(encryption_password.as_bytes(), &appname);
+        let username: String= aes_decrypt(encryption_password.as_bytes(), &username);
+        let password: String= aes_decrypt(encryption_password.as_bytes(), &password);
         let json_data = json!({
             "appname": appname,
             "username": username,
