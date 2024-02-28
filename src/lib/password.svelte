@@ -40,7 +40,7 @@
 </script>
 
 <div
-    class="flex bg-slate-600/20 shadow-lg w-full flex-row text-gray-200 gap-2 rounded-lg font-mono lg:w-1/2 mx-auto items-center p-2"
+    class="flex bg-slate-600/20 shadow-lg w-full flex-row text-gray-200 gap-2 rounded-lg font-mono lg:w-3/4 mx-auto items-center p-2"
 >
     <h3
         class={`text-center bg-gradient-to-t h-full flex items-center rounded-l-md w-32 px-3 bg-blue-400/20`}
@@ -48,7 +48,7 @@
         {@html highlightMatch(query, password.appname)}
     </h3>
     <span
-        class="rounded-md p-2 bg-slate-200/10 flex flex-row items-center w-1/2 bg-blue"
+        class="rounded-md p-2 bg-slate-200/10 flex flex-row items-center w-1/2 bg-blue overflow-clip"
     >
         {@html highlightMatch(query, password.username)}
         <button
@@ -71,7 +71,8 @@
     <span
         class="rounded-md p-2 bg-slate-200/10 flex flex-row items-center w-1/3"
     >
-        <p class="blur-md select-none hover:filter-none">
+        <p class="blur-md select-none hover:filter-none overflow-x-scroll">
+         
             {password.password}
         </p>
         <button
