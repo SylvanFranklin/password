@@ -1,5 +1,6 @@
 <script lang="ts">
     import { writeText } from "@tauri-apps/api/clipboard";
+    export let query: string;
     export let password: {
         appname: string;
         username: string;
@@ -10,16 +11,25 @@
     const copy = async (text: string) => {
         await writeText(text);
     };
+
+    function highlightMatch(query: string, name: string) {
+        const regex = new RegExp(query, "gi"); // Create a case-insensitive regex
+        const highlightedName = name.replace(
+            regex,
+            (match) => `<mark>${match}</mark>`,
+        );
+        return highlightedName;
+    }
 </script>
 
 <div
-    class="flex bg-slate-600/10 shadow-lg w-full flex-col text-gray-200 p-4 gap-2 rounded-lg font-mono"
+    class="flex bg-slate-600/10 shadow-lg w-full flex-col text-gray-200 p-4 gap-2 rounded-lg font-mono lg:w-1/2 mx-auto"
 >
     <h3 class="text-center mb-2">
-        {password.appname}
+        {@html highlightMatch(query, password.appname)}
     </h3>
     <span class="rounded-md p-2 bg-slate-200/10 flex flex-row items-center">
-        {password.username}
+        {@html highlightMatch(query, password.username)}
         <button
             class="ml-auto hover:scale-90 duration-75"
             on:click={() => copy(password.appname)}

@@ -4,6 +4,18 @@
 @tailwind utilities;
 
 body {
-    @apply bg-black
+    @apply bg-black min-h-screen
+}
+
+mark {
+    @apply shadow-2xl bg-blue-300/40 text-white rounded-sm my-1
+}
+
+body {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+body::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 
