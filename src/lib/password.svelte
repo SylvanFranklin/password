@@ -40,7 +40,7 @@
 </script>
 
 <div
-    class="flex bg-slate-600/20 shadow-lg w-full flex-row text-gray-200 gap-2 rounded-lg font-mono lg:w-3/4 mx-auto items-center p-2"
+    class="flex bg-slate-600/20 shadow-lg w-full flex-row text-gray-200 gap-2 rounded-lg font-mono lg:w-3/4 mx-auto items-center p-2 overflow-clip"
 >
     <h3
         class={`text-center bg-gradient-to-t h-full flex items-center rounded-l-md w-32 px-3 bg-blue-400/20`}
@@ -69,10 +69,9 @@
     </span>
 
     <span
-        class="rounded-md p-2 bg-slate-200/10 flex flex-row items-center w-1/3"
+        class="rounded-md p-2 bg-slate-200/10 flex-row flex items-center w-1/3 overflow-clip text-nowrap"
     >
-        <p class="blur-md select-none hover:filter-none overflow-x-scroll">
-         
+        <p class="blur-md select-none hover:filter-none overflow-clip h-10">
             {password.password}
         </p>
         <button

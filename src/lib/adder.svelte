@@ -9,13 +9,13 @@
 </script>
 
 <form
-    class="flex bg-slate-600/10 shadow-lg flex-col text-gray-200 p-4 gap-2 rounded-lg font-mono"
+    class="flex flex-row bg-slate-600/10 shadow-lg flex-col text-gray-200 p-4 gap-2 rounded-lg font-mono"
 >
     <h1 class="font-mono text-xl text-white mx-auto outline-none">
         Add Password
     </h1>
 
-    <span class="gap-3 flex flex-col">
+    <span class="gap-3 flex flex-row mx-auto">
         <input
             type="text"
             class="bg-slate-200/10 p-2 rounded-lg outline-none"
