@@ -60,7 +60,7 @@
 </script>
 
 <nav
-    class="bg-slate-600/10 h-20 w-full absolute top-0 flex flex-row items-center"
+    class="bg-slate-600/10 w-full absolute top-0 flex flex-row items-center pt-4 pb-2 px-2"
 >
     <button
         class="text-white font-mono flex p-4 items-center gap-2 hover:scale-110 duration-200"
