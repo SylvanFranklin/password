@@ -4,6 +4,9 @@ use std::fs::{File, OpenOptions};
 use std::io::{self, prelude::*, SeekFrom};
 use std::env;
 
+// encryption
+use crate::AES::{aes_decrypt, aes_encrypt};
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PasswordEntry {
     pub appname: String,
@@ -95,11 +98,16 @@ pub fn get_all_items() -> Vec<String> {
 }
 
 #[tauri::command]
-pub fn password_entry_from_frontend(appname: &str, username: &str, password: &str) -> () {
+pub fn password_entry_from_frontend(appname: &str, username: &str, password: &str, encryption_password: &str) {
+    //encrypt all items
+    let appname_encrypted = aes_encrypt(encryption_password.as_bytes(), appname.as_bytes());
+    let username_encrypted = aes_encrypt(encryption_password.as_bytes(), username.as_bytes());
+    let password_encrypted = aes_encrypt(encryption_password.as_bytes(), password.as_bytes());
+    
     let new_entry = PasswordEntry {
-        appname: appname.to_string(),
-        username: username.to_string(),
-        password: password.to_string(),
+        appname: appname_encrypted,
+        username: username_encrypted,
+        password: password_encrypted,
     };
     add_password(new_entry).unwrap();
 }
