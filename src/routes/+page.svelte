@@ -63,7 +63,7 @@
     class="bg-slate-600/10 h-20 w-full absolute top-0 flex flex-row items-center"
 >
     <button
-        class="text-white font-mono flex p-4 items-center gap-2"
+        class="text-white font-mono flex p-4 items-center gap-2 hover:scale-110 duration-200"
         on:click={() => {
             adderActive = !adderActive;
         }}
@@ -99,7 +99,7 @@
         />
     {/if}
     <button
-        class="ml-auto mr-2 text-white font-mono flex p-4 items-center gap-2"
+        class="ml-auto mr-2 text-white font-mono flex p-4 items-center gap-2 hover:scale-110 duration-200"
         on:click={() => {
             adderActive = !adderActive;
         }}
@@ -120,9 +120,7 @@
 </nav>
 
 {#if adderActive}
-    <span
-        class="mt-20 w-2/3"
-    >
+    <span class="mt-20 w-2/3">
         <Adder get_all_items={() => get_all_items()} />
     </span>
 {:else}
