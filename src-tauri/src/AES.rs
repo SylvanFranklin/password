@@ -26,7 +26,7 @@ pub fn aes_encrypt(password: &[u8], plaintext: &[u8]) -> String {
     base64::encode(&result)
 }
 
-pub fn aes_decrypt(password: &[u8], ciphertext_with_iv: &str) -> Vec<u8> {
+pub fn aes_decrypt(password: &[u8], ciphertext_with_iv: &str) -> String {
     let key = derive_key_from_password(password, b"salt1234"); // Use the same salt
     let cipher = Cipher::aes_256_cbc();
 
@@ -37,7 +37,9 @@ pub fn aes_decrypt(password: &[u8], ciphertext_with_iv: &str) -> Vec<u8> {
     let iv = &ciphertext_with_iv[..16];
     let ciphertext = &ciphertext_with_iv[16..];
 
-    decrypt(cipher, &key, Some(iv), ciphertext).unwrap()
+    let decrypted = decrypt(cipher, &key, Some(iv), ciphertext).unwrap();
+
+    String::from_utf8_lossy(&decrypted).to_string()
 }
 
 //fn main() {

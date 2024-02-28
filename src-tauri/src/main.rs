@@ -2,7 +2,7 @@ use once_cell::sync::OnceCell;
 static PASSWORD: OnceCell<String> = OnceCell::new();
 
 use crate::file_checker::create_if_not_exists;
-use crate::json_passwords::{get_all_items, password_entry_from_frontend};
+use crate::json_passwords::{get_all_items, password_entry_from_frontend, delete_password};
 use crate::hash_options::{write_hash_to_file, compare_password};
 use crate::AES::{aes_encrypt, aes_decrypt};
 mod hash_options;
@@ -51,7 +51,16 @@ fn write_to_file(app_name: &str, username: &str, password: &str) {
 // get all items from json file wrapper
 #[tauri::command]
 fn get_json_items() -> Vec<String> {
-    get_all_items()
+    let encryption_password = PASSWORD.get().unwrap();
+    println!("password is: {}", encryption_password);
+    get_all_items(encryption_password)
+}
+
+// delete a password given an appname wrapper
+#[tauri::command]
+fn delete_item(appname: &str) {
+    println!("Deleting password: {}", appname);
+    delete_password(appname, PASSWORD.get().unwrap());
 }
 
 // -------------------------------------------------------

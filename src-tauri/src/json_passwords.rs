@@ -44,7 +44,6 @@ pub fn write_passwords(passwords: &[PasswordEntry]) -> io::Result<()> {
     Ok(())
 }
 
-#[tauri::command]
 pub fn get_all_passwords() -> io::Result<Vec<PasswordEntry>> {
     read_passwords()
 }
@@ -56,10 +55,12 @@ pub fn add_password(entry: PasswordEntry) -> io::Result<()> {
     Ok(())
 }
 
-#[tauri::command]
-pub fn delete_password(appname: &str) -> io::Result<()> {
+pub fn delete_password(appname: &str, encryption_password: &str) -> io::Result<()> {
     let mut passwords = read_passwords().unwrap_or_else(|_| vec![]);
-    passwords.retain(|entry| entry.appname != appname);
+    passwords.retain(|entry| {
+        let decrypted_appname = aes_decrypt(encryption_password.as_bytes(), &entry.appname);
+        decrypted_appname != appname
+    });
     write_passwords(&passwords)?;
     Ok(())
 }
@@ -69,23 +70,15 @@ pub fn get_data(entry: PasswordEntry) -> (String, String, String) {
     (entry.appname, entry.username, entry.password)
 }
 
-#[tauri::command]
-pub fn print_all_items() {
-    let passwords = get_all_passwords().unwrap_or_else(|_| vec![]);
-    for entry in passwords {
-        let (appname, username, password) = get_data(entry);
-        println!(
-            "Appname: {}\nUsername: {}\nPassword: {}\n",
-            appname, username, password
-        );
-    }
-}
-
-pub fn get_all_items() -> Vec<String> {
+pub fn get_all_items(encryption_password: &str) -> Vec<String> {
     let mut items = vec![];
+    println!("password backend is: {}", encryption_password);
     let passwords = get_all_passwords().unwrap_or_else(|_| vec![]);
     for entry in passwords {
         let (appname, username, password) = get_data(entry);
+        let appname: String= aes_decrypt(encryption_password.as_bytes(), &appname);
+        let username: String= aes_decrypt(encryption_password.as_bytes(), &username);
+        let password: String= aes_decrypt(encryption_password.as_bytes(), &password);
         let json_data = json!({
             "appname": appname,
             "username": username,
