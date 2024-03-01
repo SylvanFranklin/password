@@ -3,7 +3,7 @@ use serde_json::{self, json};
 use std::fs::{File, OpenOptions};
 use std::io::{self, prelude::*, SeekFrom};
 use std::env;
-use tauri::dialog::{Dialog, DialogBuilder}; //file popup window
+// use tauri::dialog::{Dialog, DialogBuilder}; //file popup window
 
 // encryption
 use crate::AES::{aes_decrypt, aes_encrypt};
@@ -131,42 +131,42 @@ pub fn password_entry_from_frontend(appname: &str, username: &str, password: &st
 // -------------------------------------------------------
 
 //returns the path of the file selected, and writes the path to a file
-use std::fs::File;
-use std::io::Write;
-use std::env;
-use std::fs::File;
-use std::io::{Read, Write};
+// use std::fs::File;
+// use std::io::Write;
+// use std::env;
+// use std::fs::File;
+// use std::io::{Read, Write};
 
-pub async fn file_popup() -> String {
-    let dialog = DialogBuilder::new()
-        .title("Open File")
-        .filters(vec![("JSON Files", vec!["json"])])
-        .show_open_single()
-        .build()
-        .unwrap();
+// pub async fn file_popup() -> String {
+//     let dialog = DialogBuilder::new()
+//         .title("Open File")
+//         .filters(vec![("JSON Files", vec!["json"])])
+//         .show_open_single()
+//         .build()
+//         .unwrap();
 
-    let result = dialog.run().await.unwrap();
-    let path = result.path().to_str().unwrap().to_string();
+//     let result = dialog.run().await.unwrap();
+//     let path = result.path().to_str().unwrap().to_string();
 
-    // Write the path to an environment variable
-    env::set_var("CACHE_FILE_PATH", &path);
+//     // Write the path to an environment variable
+//     env::set_var("CACHE_FILE_PATH", &path);
 
-    // Write the path to a file, and that file should be in that path
-    let mut file = File::create(path.clone() + "/cache.txt").unwrap();
-    file.write_all(path.as_bytes()).unwrap();
+//     // Write the path to a file, and that file should be in that path
+//     let mut file = File::create(path.clone() + "/cache.txt").unwrap();
+//     file.write_all(path.as_bytes()).unwrap();
 
-    path
-}
+//     path
+// }
 
-pub fn get_cached_path() -> Option<String> {
-    // Check if the environment variable is set
-    if let Ok(path) = env::var("CACHE_FILE_PATH") {
-        return Some(path);
-    }
+// pub fn get_cached_path() -> Option<String> {
+//     // Check if the environment variable is set
+//     if let Ok(path) = env::var("CACHE_FILE_PATH") {
+//         return Some(path);
+//     }
 
-    // If the environment variable is not set, try to read from the file
-    let mut file = File::open("cache.txt").ok()?;
-    let mut path = String::new();
-    file.read_to_string(&mut path).ok()?;
-    Some(path)
-}
+//     // If the environment variable is not set, try to read from the file
+//     let mut file = File::open("cache.txt").ok()?;
+//     let mut path = String::new();
+//     file.read_to_string(&mut path).ok()?;
+//     Some(path)
+// }
