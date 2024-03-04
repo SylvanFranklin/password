@@ -155,7 +155,7 @@
 </nav>
 
 {#if !adderActive}
-    <span class="mt-20 w-full px-10">
+    <span class="mt-20 w-full sm:w-4/5">
         <ol class="grid gap-6">
             {#each highlightedSearchItems as password, index}
                 <Password {password} {query} />

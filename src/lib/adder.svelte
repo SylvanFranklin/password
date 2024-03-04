@@ -7,6 +7,7 @@
     let username = "";
     let password = "";
 
+    // TODO fix this bad code, so that it is in sync with the other animation.
     function customSlide(node: HTMLElement, { delay = 0, duration = 400 }) {
         return {
             delay,
