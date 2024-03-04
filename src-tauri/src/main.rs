@@ -73,7 +73,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             // file checker
             file_check,
-
+            delete_item,
             // json password interactions
             get_json_items,
             write_to_file

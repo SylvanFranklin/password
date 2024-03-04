@@ -2,7 +2,7 @@
     import Password from "$lib/password.svelte";
     import Adder from "$lib/adder.svelte";
     import Fuse from "fuse.js";
-    import { invoke } from "@tauri-apps/api/tauri";
+    import { invoke, type InvokeArgs } from "@tauri-apps/api/tauri";
     import { onMount } from "svelte";
     import { fade, fly, slide } from "svelte/transition";
 
@@ -52,6 +52,11 @@
             keys: ["appname", "username"],
         });
     });
+
+    const delete_item = async (password: PasswordObject) => {
+        await invoke("delete_item", { appname: password.appname });
+        await get_all_items();
+    };
 
     function formChange(e: Event) {
         if (e.target == null) {
@@ -140,6 +145,7 @@
         }}
     >
         <span class="text-white">
+            <!-- adder, plus button, etc -->
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
@@ -147,21 +153,23 @@
                 viewBox="0 0 24 24"
                 ><path
                     fill="currentColor"
-                    d="M13 14h2v-3h3V9h-3V6h-2v3h-3v2h3zm-5 4q-.825 0-1.412-.587T6 16V4q0-.825.588-1.412T8 2h12q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18zm0-2h12V4H8zm-4 6q-.825 0-1.412-.587T2 20V6h2v14h14v2zM8 4v12z"
+                    d="M7.5 3c2 0 3.6 1.2 4.2 3H21v3h-3v3h-3V9h-3.3c-.6 1.8-2.3 3-4.2 3C5 12 3 10 3 7.5S5 3 7.5 3m0 3C6.7 6 6 6.7 6 7.5S6.7 9 7.5 9S9 8.3 9 7.5S8.3 6 7.5 6M8 17h3v-3h2v3h3v2h-3v3h-2v-3H8z"
                 /></svg
             >
         </span>
     </button>
 </nav>
 
-{#if !adderActive}
-    <span class="mt-20 w-full sm:w-4/5">
-        <ol class="grid gap-6">
-            {#each highlightedSearchItems as password, index}
-                <Password {password} {query} />
-            {/each}
-        </ol>
-    </span>
-{/if}
+<span class="mt-20 w-full sm:w-4/5">
+    <ol class="grid gap-6">
+        {#each highlightedSearchItems as password, index}
+            <Password
+                {password}
+                {query}
+                delete_item={() => delete_item(password)}
+            />
+        {/each}
+    </ol>
+</span>
 
 <svelte:window on:keydown={keydown} />

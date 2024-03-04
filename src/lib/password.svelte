@@ -1,5 +1,8 @@
 <script lang="ts">
+    import { invoke } from "@tauri-apps/api/tauri";
     import { writeText } from "@tauri-apps/api/clipboard";
+    import { scale } from "svelte/transition";
+    export let delete_item: () => void;
     export let query: string;
     export let password: {
         appname: string;
@@ -24,8 +27,13 @@
 
 <div
     class="flex bg-slate-600/20 shadow-lg w-full flex-row text-gray-200 gap-2 rounded-lg font-mono lg:w-3/4 mx-auto items-center p-2 overflow-clip"
+    transition:scale={{ duration: 200, delay: 0, start: 0.5 }}
 >
-    <button class="text-white scale-75">
+    <!-- trash, delete icon -->
+    <button
+        class="text-white scale-75 cursor-pointer hover:scale-90 duration-75"
+        on:click={() => delete_item()}
+    >
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="28"
@@ -43,7 +51,7 @@
         {@html highlightMatch(query, password.appname)}
     </h3>
     <span
-        class="rounded-md p-2 bg-slate-200/10 flex flex-row items-center w-1/2 bg-blue overflow-clip"
+        class="rounded-md p-2 bg-slate-200/10 flex flex-row items-center w-1/2 bg-blue overflow-hidden whitespace-nowrap"
     >
         {@html highlightMatch(query, password.username)}
         <button
