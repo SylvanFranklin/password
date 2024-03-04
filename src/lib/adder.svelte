@@ -27,7 +27,7 @@
 
     <span class="gap-3 flex flex-row mx-auto">
         <!-- svelte-ignore a11y-autofocus -->
-        <input
+       <input
             type="text"
             autofocus
             class="bg-slate-200/10 p-2 rounded-lg outline-none resizer"
