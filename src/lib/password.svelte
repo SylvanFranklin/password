@@ -20,30 +20,13 @@
         );
         return highlightedName;
     }
-
-    // temp joke function
-    function joke() {
-        const hex_colors = [
-            "#FF0000",
-            "#FFA500",
-            "#FFFF00",
-            "#008000",
-            "#0000FF",
-            "#4B0082",
-            "#EE82EE",
-        ];
-        const random_color = hex_colors[Math.floor(Math.random() * 7)];
-        const random_color2 = hex_colors[Math.floor(Math.random() * 7)];
-        return `linear-gradient(to right, ${random_color}, ${random_color2})
-        `;
-    }
 </script>
 
 <div
-    class="flex bg-slate-600/20 shadow-lg w-full flex-row text-gray-200 gap-2 rounded-lg font-mono lg:w-3/4 mx-auto items-center p-2 overflow-clip"
+    class="flex bg-slate-600/20 shadow-lg w-full flex-row text-gray-200 gap-2 rounded-lg font-mono lg:w-3/4 mx-auto items-center p-2 overflow-clip "
 >
     <h3
-        class={`text-center bg-gradient-to-t h-full flex items-center rounded-l-md w-1/4 px-3 bg-blue-400/20 overflow-clip`}
+        class={`text-center bg-gradient-to-t h-full flex items-center rounded-md w-1/4 px-3 bg-blue-400/20 overflow-clip whitespace-nowrap`}
     >
         {@html highlightMatch(query, password.appname)}
     </h3>
@@ -69,9 +52,9 @@
     </span>
 
     <span
-        class="rounded-md p-2 bg-slate-200/10 flex-row flex items-center w-1/3 text-nowrap"
+        class="rounded-md p-2 bg-slate-200/10 flex-row flex items-center w-1/3 text-nowrap h-14 overflow-clip"
     >
-        <p class="blur-md select-none hover:filter-none overflow-clip w-full">
+        <p class="blur-md select-none hover:filter-none overflow-hidden w-full py-2 text-nowrap whitespace-nowrap">
             {password.password}
         </p>
         <button

@@ -118,7 +118,7 @@
         <div class="w-full flex flex-row items-center gap-2">
             <input
                 type="text"
-                class="bg-slate-200/5 p-4 rounded-lg outline-none h-12 placeholder-gray-200/20 overflow-x-scroll w-full text-gray-200 text-xl font-mono .search"
+                class="bg-slate-200/5 p-4 rounded-lg outline-none h-12 placeholder-gray-200/20 overflow-x-scroll w-full text-gray-200 text-xl font-mono .search relative"
                 placeholder="search passwords"
                 transition:slide={{ duration: 400, delay: 0, axis: "x" }}
                 bind:value={query}
@@ -155,7 +155,7 @@
 </nav>
 
 {#if !adderActive}
-    <span class="mt-20 w-2/3">
+    <span class="mt-20 w-full px-10">
         <ol class="grid gap-6">
             {#each highlightedSearchItems as password, index}
                 <Password {password} {query} />

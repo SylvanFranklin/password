@@ -6,10 +6,20 @@
     let appName = "";
     let username = "";
     let password = "";
+
+    function customSlide(node: HTMLElement, { delay = 0, duration = 400 }) {
+        return {
+            delay,
+            duration,
+            css: (t: number) => `transform: translateX(${t * 100}px)`,
+        };
+    }
 </script>
 
 <form
-    class="bg-slate-200/5 p-2 flex flex-row shadow-lg text-gray-200 gap-2 rounded-lg font-mono w-full" >
+    class="bg-slate-200/5 p-2 flex flex-row shadow-lg text-gray-200 gap-2 rounded-lg font-mono w-full"
+    transition:customSlide={{ duration: 400 }}
+>
     <!-- <h1 class="font-mono text-xl text-white mx-auto outline-none"> -->
     <!--     Add Password -->
     <!-- </h1> -->
@@ -19,8 +29,8 @@
         <input
             type="text"
             autofocus
-            class="bg-slate-200/10 p-2 rounded-lg outline-none"
-            placeholder="App/Website Name"
+            class="bg-slate-200/10 p-2 rounded-lg outline-none resizer"
+            placeholder="app name"
             autoCapitalize="off"
             spellCheck="false"
             autoCorrect="off"
@@ -28,7 +38,7 @@
         />
         <input
             type="text"
-            class="bg-slate-200/10 p-2 rounded-lg outline-none"
+            class="bg-slate-200/10 p-2 rounded-lg outline-none resizer"
             autoCapitalize="off"
             spellCheck="false"
             autoCorrect="off"
@@ -37,7 +47,7 @@
         />
         <input
             type="text"
-            class="bg-slate-200/10 p-2 rounded-lg outline-none"
+            class="bg-slate-200/10 p-2 rounded-lg outline-none resizer"
             placeholder="password"
             autoCapitalize="off"
             spellCheck="false"
