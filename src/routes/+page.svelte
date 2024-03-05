@@ -1,10 +1,25 @@
 <script lang="ts">
+    interface PasswordObject {
+        appname: string;
+        username: string;
+        password: string;
+    }
     import Password from "$lib/password.svelte";
     import Adder from "$lib/adder.svelte";
     import Fuse from "fuse.js";
     import { invoke, type InvokeArgs } from "@tauri-apps/api/tauri";
     import { onMount } from "svelte";
-    import { fade, fly, slide } from "svelte/transition";
+    import { tweened } from "svelte/motion";
+    import { slide } from "svelte/transition";
+    export let lock: Function;
+    let passwords: Array<PasswordObject> = [];
+    let highlightedSearchItems: Array<PasswordObject> = [];
+    let query = "";
+    let adderActive = false;
+
+    let slider = tweened(100, { duration: 200 });
+
+    let fuser: Fuse<PasswordObject>;
 
     function focus(el: HTMLElement) {
         el.focus();
@@ -36,14 +51,6 @@
                 break;
         }
     }
-
-    export let lock: Function;
-
-    let passwords: Array<PasswordObject> = [];
-    let highlightedSearchItems: Array<PasswordObject> = [];
-    let query = "";
-    let adderActive = false;
-    let fuser: Fuse<PasswordObject>;
 
     onMount(async () => {
         await get_all_items();
@@ -87,12 +94,6 @@
         passwords = [...passwords];
         highlightedSearchItems = [...passwords];
     }
-
-    interface PasswordObject {
-        appname: string;
-        username: string;
-        password: string;
-    }
 </script>
 
 <nav
@@ -102,12 +103,13 @@
         class="text-white font-mono flex p-4 items-center gap-2 hover:scale-110 duration-200"
         on:click={() => {
             adderActive = !adderActive;
+            slider.set(10);
         }}
     >
         <span class="text-white">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="32"
+                width="36"
                 height="32"
                 viewBox="0 0 24 24"
                 ><path
@@ -118,12 +120,12 @@
         </span>
     </button>
 
-    {#if !adderActive}
+    <div class="flex w-full grid-flow-col items-center justify-center">
         <!-- svelte-ignore a11y-autofocus -->
-        <div class="w-full flex flex-row items-center gap-2">
+        {#if !adderActive}
             <input
                 type="text"
-                class="bg-slate-200/5 p-4 rounded-lg outline-none h-12 placeholder-gray-200/20 overflow-x-scroll w-full text-gray-200 text-xl font-mono .search relative"
+                class={`bg-slate-200/5 p-4 rounded-lg outline-none h-12 placeholder-gray-200/20 overflow-x-scroll text-gray-200 text-xl font-mono flex w-3/4`}
                 placeholder="search passwords"
                 transition:slide={{ duration: 400, delay: 0, axis: "x" }}
                 bind:value={query}
@@ -134,10 +136,12 @@
                 spellcheck="false"
                 on:input|preventDefault={formChange}
             />
-        </div>
-    {:else}
-        <Adder get_all_items={() => get_all_items()} />
-    {/if}
+        {:else}
+            <span transition:slide={{ duration: 400, delay: 0, axis: "x" }}>
+                <Adder get_all_items={() => get_all_items()} />
+            </span>
+        {/if}
+    </div>
     <button
         class="ml-auto mr-2 text-white font-mono flex p-4 items-center gap-2 hover:scale-110 duration-200"
         on:click={() => {
