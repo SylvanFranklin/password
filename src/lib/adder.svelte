@@ -6,8 +6,8 @@
     let password = "";
 
     const gen_password = () => {
-        invoke("generate_password", {length: 10}).then((res) => {
-            console.log(res);
+        invoke("generate_password", { length: 20 }).then((res) => {
+            password = res as string;
         });
     };
 </script>
@@ -49,6 +49,7 @@
             autoCorrect="off"
             bind:value={password}
         />
+
         <button
             class="px-4 py-2 rounded-md bg-orange-400 w-min mx-auto hover:scale-95 duration-100 shadow-md"
             on:click={() => {
@@ -63,5 +64,8 @@
                 password = "";
             }}>add</button
         >
+        <button class="bg-white text-blue-800" on:click={gen_password}>
+            UGLY TEMP BUTTON
+        </button>
     </span>
 </form>
