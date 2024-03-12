@@ -2,31 +2,40 @@ use once_cell::sync::OnceCell;
 static PASSWORD: OnceCell<String> = OnceCell::new();
 
 use crate::file_checker::create_if_not_exists;
-use crate::json_passwords::{get_all_items, password_entry_from_frontend, delete_password};
-use crate::hash_options::{write_hash_to_file, compare_password};
-use crate::AES::{aes_encrypt, aes_decrypt};
-mod hash_options;
-mod file_checker;
-mod json_passwords;
+use crate::hash_options::{compare_password, write_hash_to_file};
+use crate::json_passwords::{delete_password, get_all_items, password_entry_from_frontend};
+use crate::AES::{aes_decrypt, aes_encrypt};
 mod AES;
+mod file_checker;
+mod hash_options;
+mod json_passwords;
 
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #[cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-
 // -------------------------------------------------------
 // FILE CHECKER OPERATIONS
 // -------------------------------------------------------
 
 // check if json file exists wrapper
 #[tauri::command]
-fn file_check(new_password: String) {
+fn file_check(new_password: String) -> bool {
     // check if json file exists
     create_if_not_exists(&new_password);
     println!("File check complete");
 
+    if compare_password(&new_password) {
+        match PASSWORD.set(new_password) {
+            Ok(_) => {
+                println!("password set");
+            }
+            Err(err) => {
+                println!("error setting password: {}", err);
+            }
+        }
+        return true;
+    }
     // store password in memory so it stays in scope
-    PASSWORD.set(new_password).unwrap();
-    test();
+    return false;
 }
 
 fn test() {
