@@ -1,11 +1,12 @@
+use passwords::PasswordGenerator;
 use rand::Rng;
 use zxcvbn::zxcvbn;
-use passwords::PasswordGenerator;
 
+#[tauri::command]
 pub fn generate_password(length: u8) -> String {
     let mut rng = rand::thread_rng();
     let password: String = PasswordGenerator::new()
-        .length(length)
+        .length(length.into())
         .numbers(true)
         .symbols(true)
         .lowercase_letters(true)
@@ -16,7 +17,9 @@ pub fn generate_password(length: u8) -> String {
 }
 
 // score between 0 and 4
+#[tauri::command]
 pub fn password_strength(password: &str) -> u8 {
     let result = zxcvbn(password, &[]).unwrap();
-    result.score
+    result.score()
 }
+

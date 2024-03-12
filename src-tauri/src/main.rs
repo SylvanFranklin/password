@@ -1,15 +1,15 @@
 use once_cell::sync::OnceCell;
 static PASSWORD: OnceCell<String> = OnceCell::new();
-
 use crate::file_checker::create_if_not_exists;
 use crate::hash_options::{compare_password, write_hash_to_file};
 use crate::json_passwords::{delete_password, get_all_items, password_entry_from_frontend};
+use crate::password_config::{generate_password, password_strength};
 use crate::AES::{aes_decrypt, aes_encrypt};
 mod AES;
 mod file_checker;
 mod hash_options;
 mod json_passwords;
-
+mod password_config;
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #[cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 // -------------------------------------------------------
@@ -85,6 +85,8 @@ fn main() {
             delete_item,
             // json password interactions
             get_json_items,
+            password_strength,
+            generate_password,
             write_to_file
         ]) // json creation interactions
         .run(tauri::generate_context!())

@@ -4,6 +4,12 @@
     let appName = "";
     let username = "";
     let password = "";
+
+    const gen_password = () => {
+        invoke("generate_password", {length: 10}).then((res) => {
+            console.log(res);
+        });
+    };
 </script>
 
 <form
