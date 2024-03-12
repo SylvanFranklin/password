@@ -93,6 +93,9 @@
 
         passwords = [...passwords];
         highlightedSearchItems = [...passwords];
+        fuser = new Fuse(passwords, {
+            keys: ["appname", "username"],
+        });
     }
 </script>
 
