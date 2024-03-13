@@ -9,8 +9,9 @@
     let error: string;
 </script>
 
-<main class="grid gap-4 mt-10 w-2/3">
+<main class="flex flex-col mt-10 w-2/3 items-center">
     <form
+        class="gap-4 flex flex-col w-full"
         on:submit|preventDefault={() => {
             invoke("file_check", { newPassword }).then((response) => {
                 if (response) {
