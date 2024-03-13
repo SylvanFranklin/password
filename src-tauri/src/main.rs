@@ -1,3 +1,4 @@
+use json_passwords::PasswordEntry;
 use once_cell::sync::OnceCell;
 static PASSWORD: OnceCell<String> = OnceCell::new();
 use crate::file_checker::create_if_not_exists;
@@ -52,9 +53,13 @@ fn test() {
 
 // write password to json file wrapper
 #[tauri::command]
-fn write_to_file(app_name: &str, username: &str, password: &str) {
-    println!("Writing to file: {} {} {}", app_name, username, password);
-    password_entry_from_frontend(app_name, username, password, PASSWORD.get().unwrap());
+fn write_to_file(entry: PasswordEntry) {
+    password_entry_from_frontend(
+        &entry.appname,
+        &entry.username,
+        &entry.password,
+        PASSWORD.get().unwrap(),
+    );
 }
 
 // get all items from json file wrapper
@@ -76,6 +81,24 @@ fn delete_item(appname: &str) {
 // MAIN APP BUILDERS
 // -------------------------------------------------------
 
+#[tauri::command]
+fn validate_entry(entry: PasswordEntry) -> String {
+
+
+    if entry.appname.is_empty() {
+        return "Appname cannot be empty".to_string();
+    }
+    if entry.username.is_empty() {
+        return "Username cannot be empty".to_string();
+    }
+    if entry.password.is_empty() {
+        return "Password cannot be empty".to_string();
+    }
+
+
+    return "".to_string();
+}
+
 //main app builder method
 fn main() {
     tauri::Builder::default()
@@ -85,6 +108,7 @@ fn main() {
             delete_item,
             // json password interactions
             get_json_items,
+            validate_entry,
             password_strength,
             generate_password,
             write_to_file
