@@ -1,9 +1,34 @@
 <script lang="ts">
     export let get_all_items: Function;
     import { invoke } from "@tauri-apps/api/tauri";
-    let appName = "";
+    let appname = "";
     let username = "";
     let password = "";
+    let error = "";
+
+    let passwordFocus = false;
+
+    const add_password = async () => {
+        await invoke("validate_entry", {
+            entry: { appname, username, password },
+        }).then((err) => {
+            if ((err as string).length > 0) {
+                error = err as string;
+            } else {
+                invoke("write_to_file", {
+                    entry: {
+                        appname,
+                        username,
+                        password,
+                    },
+                });
+                get_all_items();
+                appname = "";
+                username = "";
+                password = "";
+            }
+        });
+    };
 
     const gen_password = () => {
         invoke("generate_password", { length: 20 }).then((res) => {
@@ -29,7 +54,8 @@
             autoCapitalize="off"
             spellCheck="false"
             autoCorrect="off"
-            bind:value={appName}
+            bind:value={appname}
+            on:focus={() => (passwordFocus = false)}
         />
         <input
             type="text"
@@ -37,35 +63,48 @@
             autoCapitalize="off"
             spellCheck="false"
             autoCorrect="off"
+            on:focus={() => (passwordFocus = false)}
             placeholder="username"
             bind:value={username}
         />
-        <input
-            type="text"
-            class="bg-slate-200/10 p-2 rounded-lg outline-none resizer"
-            placeholder="password"
-            autoCapitalize="off"
-            spellCheck="false"
-            autoCorrect="off"
-            bind:value={password}
-        />
+
+        <span class="resizer p-2 flex bg-slate-200/10 rounded-lg overflow-clip">
+            <input
+                type="text"
+                on:focus={() => (passwordFocus = true)}
+                class="outline-none bg-slate-200/0 w-full"
+                placeholder="password"
+                autoCapitalize="off"
+                spellCheck="false"
+                autoCorrect="off"
+                bind:value={password}
+            />
+
+            {#if passwordFocus}
+                <button class="text-white flex -my-2 items-center">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="32"
+                        height="32"
+                        viewBox="0 0 24 24"
+                        ><path
+                            fill="currentColor"
+                            d="M16.59 8.59L12 13.17L7.41 8.59L6 10l6 6l6-6z"
+                        /></svg
+                    >
+                </button>
+            {/if}
+        </span>
 
         <button
             class="px-4 py-2 rounded-md bg-orange-400 w-min mx-auto hover:scale-95 duration-100 shadow-md"
             on:click={() => {
-                invoke("write_to_file", {
-                    appName,
-                    username,
-                    password,
-                });
-                get_all_items();
-                appName = "";
-                username = "";
-                password = "";
+                add_password();
             }}>add</button
         >
-        <button class="bg-white text-blue-800" on:click={gen_password}>
-            UGLY TEMP BUTTON
-        </button>
     </span>
 </form>
+
+{#if error.length > 0}
+    <h1 class="font-mono text-red-500">{error}</h1>
+{/if}
