@@ -123,8 +123,7 @@
         </span>
     </button>
 
-    <div class="flex w-full grid-flow-col items-center justify-center">
-        <!-- svelte-ignore a11y-autofocus -->
+    <div class="flex flex-row items-center justify-center w-full">
         {#if !adderActive}
             <input
                 type="text"
@@ -132,7 +131,6 @@
                 placeholder="search passwords"
                 transition:slide={{ duration: 400, delay: 0, axis: "x" }}
                 bind:value={query}
-                autocomplete="off"
                 use:focus
                 autocorrect="off"
                 autocapitalize="off"
@@ -167,7 +165,7 @@
     </button>
 </nav>
 
-<span class="mt-20 w-full sm:w-4/5">
+<span class="mt-44 w-full sm:w-4/5">
     <ol class="grid gap-6">
         {#each highlightedSearchItems as password, index}
             <Password
