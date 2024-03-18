@@ -1,25 +1,23 @@
-# Password Manager built with Tauri  
+# Password Manager 
 
-Still in early development, run instructions below, requires tauri-CLI
+Lightweight and secure password manager build with the Tauri framework and a Sveltekit frontend. 
+
+### Convenient 
+Fuzzy Find, Password generator, quick copy, keyboard shortcuts, location caching, responsive UI. 
+
+![alt text](imgs/main.png)
+
+### Secure
+Full and fast layered AES encryption with Rust.  
+
+![alt text](imgs/lock.png)
+
+### Install
 
 ```sh
+# requires tauri cli
 npm i
 cargo tauri dev
 ```
 
-### TODO
-- [ ] password generator
-- [ ] animation on copy button 
-- [ ] password strength meter
-- [ ] dark mode and theming settings with cache
-- [ ] borderless / custom border window 
-- [ ] file picker, location caching
-- [ ] delete buttons 
-- [ ] prevent empty passwords from being created / form validation
-- [ ] check build compatibility on Windows / Linux
-- [ ] sexy README screenshots
 
-
-
-### Further TODO
-- [ ] Browser integration
