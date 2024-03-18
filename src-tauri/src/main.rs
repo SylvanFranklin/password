@@ -22,13 +22,10 @@ mod password_config;
 fn file_check(new_password: String) -> bool {
     // check if json file exists
     create_if_not_exists(&new_password);
-    println!("File check complete");
 
     if compare_password(&new_password) {
         match PASSWORD.set(new_password) {
-            Ok(_) => {
-                println!("password set");
-            }
+            Ok(_) => {}
             Err(err) => {
                 println!("error setting password: {}", err);
             }
@@ -37,14 +34,6 @@ fn file_check(new_password: String) -> bool {
     }
     // store password in memory so it stays in scope
     return false;
-}
-
-fn test() {
-    if let Some(password) = PASSWORD.get() {
-        println!("password is: {}", password);
-    } else {
-        println!("password not set");
-    }
 }
 
 // -------------------------------------------------------
@@ -66,14 +55,12 @@ fn write_to_file(entry: PasswordEntry) {
 #[tauri::command]
 fn get_json_items() -> Vec<String> {
     let encryption_password = PASSWORD.get().unwrap();
-    println!("password is: {}", encryption_password);
     get_all_items(encryption_password)
 }
 
 // delete a password given an appname wrapper
 #[tauri::command]
 fn delete_item(appname: &str) {
-    println!("Deleting password: {}", appname);
     delete_password(appname, PASSWORD.get().unwrap());
 }
 

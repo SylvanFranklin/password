@@ -73,7 +73,6 @@ pub fn get_data(entry: PasswordEntry) -> (String, String, String) {
 
 pub fn get_all_items(encryption_password: &str) -> Vec<String> {
     let mut items = vec![];
-    println!("password backend is: {}", encryption_password);
     let passwords = get_all_passwords().unwrap_or_else(|_| vec![]);
     for entry in passwords {
         let (appname, username, password) = get_data(entry);

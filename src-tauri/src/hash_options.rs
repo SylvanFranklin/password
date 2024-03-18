@@ -17,7 +17,6 @@ pub fn write_hash_to_file(password: &str) {
         .open(&path)
         .unwrap();
     file.write_all(hash.as_bytes()).unwrap();
-    println!("Hash written to file");
 }
 
 pub fn compare_password(password: &str) -> bool {
