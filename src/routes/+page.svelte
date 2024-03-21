@@ -4,7 +4,7 @@
         username: string;
         password: string;
     }
-    import Password from "$lib/password.svelte";
+            import Password from "$lib/password.svelte";
     import Adder from "$lib/adder.svelte";
     import Fuse from "fuse.js";
     import { invoke, type InvokeArgs } from "@tauri-apps/api/tauri";
@@ -100,10 +100,10 @@
 </script>
 
 <nav
-    class="bg-slate-600/10 w-full absolute top-0 flex flex-row items-center pt-4 pb-2 px-2"
+    class="flex absolute top-0 flex-row items-center px-2 pt-4 pb-2 w-full bg-slate-600/10"
 >
     <button
-        class="text-white font-mono flex p-4 items-center gap-2 hover:scale-110 duration-200"
+        class="flex gap-2 items-center p-4 font-mono text-white duration-200 hover:scale-110"
         on:click={() => {
             adderActive = !adderActive;
             slider.set(10);
@@ -123,7 +123,7 @@
         </span>
     </button>
 
-    <div class="flex flex-row items-center justify-center w-full">
+    <div class="flex flex-row justify-center items-center w-full">
         {#if !adderActive}
             <input
                 type="text"
@@ -144,7 +144,7 @@
         {/if}
     </div>
     <button
-        class="ml-auto mr-2 text-white font-mono flex p-4 items-center gap-2 hover:scale-110 duration-200"
+        class="flex gap-2 items-center p-4 mr-2 ml-auto font-mono text-white duration-200 hover:scale-110"
         on:click={() => {
             adderActive = !adderActive;
         }}
@@ -167,6 +167,7 @@
 
 <span class="mt-44 w-full sm:w-4/5">
     <ol class="grid gap-6">
+
         {#each highlightedSearchItems as password, index}
             <Password
                 {password}
