@@ -7,8 +7,28 @@
     let password = "";
     let generatedPassword = "";
     let passwordLength = 20;
+    let passwordStrength = "";
     let error = "";
     let showingPasswordGen = false;
+
+    async function get_password_strength() {
+        let scale: number = await invoke("password_strength", {
+            password: password,
+        });
+        console.log(scale);
+        switch (scale) {
+            case 0:
+                passwordStrength = "border-2 border-red-500";
+            case 1:
+                passwordStrength = "border-2 border-orange-500";
+            case 2:
+                passwordStrength = "border-2 border-yellow-500";
+            case 3:
+                passwordStrength = "border-2 border-green-500";
+            case 3:
+                passwordStrength = "border-2 border-emerald-700";
+        }
+    }
 
     function focus(eml: HTMLElement) {
         eml.focus();
@@ -48,9 +68,9 @@
 </script>
 
 <form
-    class="bg-slate-200/5 p-2 shadow-lg text-gray-200 rounded-lg font-mono flex flex-row w-full"
+    class="flex flex-row p-2 w-full font-mono text-gray-200 rounded-lg shadow-lg bg-slate-200/5"
 >
-    <ol class="gap-2 flex flex-1 mx-auto">
+    <ol class="flex flex-1 gap-2 mx-auto">
         <!-- svelte-ignore a11y-autofocus -->
         <li
             class={`flex flex-row bg-slate-200/10 p-1 rounded-md shadow-sm ${
@@ -60,7 +80,7 @@
             <input
                 type="text"
                 use:focus
-                class="outline-none bg-slate-200/0 p-2 flex w-full"
+                class="flex p-2 w-full outline-none bg-slate-200/0"
                 placeholder="app name"
                 autoCapitalize="off"
                 spellCheck="false"
@@ -77,7 +97,7 @@
         >
             <input
                 type="text"
-                class="outline-none bg-slate-200/0 p-2 flex w-full"
+                class="flex p-2 w-full outline-none bg-slate-200/0"
                 autoCapitalize="off"
                 spellCheck="false"
                 autoCorrect="off"
@@ -90,12 +110,14 @@
         <li
             class={`flex flex-row bg-slate-200/10 p-1 rounded-md shadow-sm ${
                 fieldFocus == 2 ? "w-full" : "w-2/5"
-            }`}
+            } ${passwordStrength}
+            `}
         >
             <input
                 type="text"
                 on:focus={() => (fieldFocus = 2)}
-                class="outline-none bg-slate-200/0 p-2 flex w-full"
+                on:input={() => get_password_strength()}
+                class="flex p-2 w-full outline-none bg-slate-200/0"
                 placeholder="password"
                 autoCapitalize="off"
                 spellCheck="false"
@@ -105,7 +127,7 @@
 
             {#if fieldFocus == 2}
                 <button
-                    class="text-white flex -my-2 items-center"
+                    class="flex items-center -my-2 text-white"
                     on:click|stopPropagation={() => {
                         showingPasswordGen = !showingPasswordGen;
                     }}
@@ -124,7 +146,7 @@
             {/if}
         </li>
         <button
-            class="px-4 py-2 rounded-md bg-orange-400 w-min mx-auto hover:scale-95 duration-100 shadow-md"
+            class="py-2 px-4 mx-auto w-min bg-orange-400 rounded-md shadow-md duration-100 hover:scale-95"
             on:click={() => {
                 add_password();
             }}>add</button
@@ -138,18 +160,18 @@
 
 {#if showingPasswordGen}
     <div
-        class="absolute left-1/2 transform -translate-x-1/2 w-2/3 mx-auto mt-4 lg:w-1/2 rounded-md bg-slate-200/10 font-mono text-white flex flex-col p-2 gap-3"
+        class="flex absolute left-1/2 flex-col gap-3 p-2 mx-auto mt-4 w-2/3 font-mono text-white rounded-md transform -translate-x-1/2 lg:w-1/2 bg-slate-200/10"
         transition:scale={{ duration: 200, delay: 0, start: 0.5 }}
     >
         <h1 class="mx-auto">password generator</h1>
 
-        <span class="flex flex-row w-full items-center gap-3">
+        <span class="flex flex-row gap-3 items-center w-full">
             length
             <input
                 type="number"
                 inputmode="numeric"
                 use:focus
-                class="outline-none bg-slate-200/10 p-2 flex w-1/4 rounded-md"
+                class="flex p-2 w-1/4 rounded-md outline-none bg-slate-200/10"
                 placeholder="20"
                 autoCapitalize="off"
                 spellCheck="false"
@@ -157,16 +179,16 @@
                 bind:value={passwordLength}
             />
             <input
-                class="outline-none bg-slate-200/10 p-2 flex w-3/4 rounded-md"
+                class="flex p-2 w-3/4 rounded-md outline-none bg-slate-200/10"
                 placeholder=""
                 autoCapitalize="off"
                 bind:value={generatedPassword}
             />
         </span>
 
-        <span class="w-full flex flex-row gap-3 justify-center">
+        <span class="flex flex-row gap-3 justify-center w-full">
             <button
-                class="p-3 rounded-md bg-pink-400/80 shadow-sm hover:scale-95 duration:100"
+                class="p-3 rounded-md shadow-sm hover:scale-95 bg-pink-400/80 duration:100"
                 on:click={() => {
                     gen_password();
                 }}
@@ -174,7 +196,7 @@
                 new
             </button>
             <button
-                class="p-3 rounded-md bg-green-500/80 shadow-sm hover:scale-95 duration:100"
+                class="p-3 rounded-md shadow-sm hover:scale-95 bg-green-500/80 duration:100"
                 on:click={() => {
                     password = generatedPassword;
                     showingPasswordGen = false;
