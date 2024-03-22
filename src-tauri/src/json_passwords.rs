@@ -90,8 +90,41 @@ pub fn get_all_items(encryption_password: &str) -> Vec<String> {
     items
 }
 
+// get items as password structs
+pub fn get_all_passwords_struct(encryption_password: &str) -> Vec<PasswordEntry> {
+    let mut items = vec![];
+    let passwords = get_all_passwords().unwrap_or_else(|_| vec![]);
+    for entry in passwords {
+        let (appname, username, password) = get_data(entry);
+        let appname: String= aes_decrypt(encryption_password.as_bytes(), &appname);
+        let username: String= aes_decrypt(encryption_password.as_bytes(), &username);
+        let password: String= aes_decrypt(encryption_password.as_bytes(), &password);
+        let new_entry = PasswordEntry::new(appname, username, password);
+        items.push(new_entry);
+    }
+    items
+}
+
+pub fn check_if_duplicate(appname: &str, username: &str, encryption_password: &str) -> bool {
+    let passwords = get_all_passwords_struct(encryption_password);
+    for entry in passwords {
+        let (appname_entry, username_entry, _) = get_data(entry);
+        if appname == appname_entry && username == username_entry {
+            return true;
+        }
+    }
+    false
+}
+
 #[tauri::command]
 pub fn password_entry_from_frontend(appname: &str, username: &str, password: &str, encryption_password: &str) {
+    //check if entry is a duplicate
+
+    if check_if_duplicate(appname, username, encryption_password) {
+        // do nothing if it is
+        return;
+    }
+
     //encrypt all items
     let appname_encrypted = aes_encrypt(encryption_password.as_bytes(), appname.as_bytes());
     let username_encrypted = aes_encrypt(encryption_password.as_bytes(), username.as_bytes());
