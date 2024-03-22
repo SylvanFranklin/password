@@ -1,10 +1,8 @@
 use passwords::PasswordGenerator;
-use rand::Rng;
 use zxcvbn::zxcvbn;
 
 #[tauri::command]
 pub fn generate_password(length: u8) -> String {
-    let mut rng = rand::thread_rng();
     let password: String = PasswordGenerator::new()
         .length(length.into())
         .numbers(true)
