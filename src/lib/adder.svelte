@@ -19,14 +19,19 @@
         switch (scale) {
             case 0:
                 passwordStrength = "border-2 border-red-500";
+                break;
             case 1:
                 passwordStrength = "border-2 border-orange-500";
+                break;
             case 2:
                 passwordStrength = "border-2 border-yellow-500";
+                break;
             case 3:
                 passwordStrength = "border-2 border-green-500";
+                break;
             case 3:
                 passwordStrength = "border-2 border-emerald-700";
+                break;
         }
     }
 
