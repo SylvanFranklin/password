@@ -94,5 +94,3 @@ pub fn password_strength(password: &str) -> u8 {
 //     }
 // }
 
-// // Path: src-tauri/src/password_config.rs
->>>>>>> theirs
