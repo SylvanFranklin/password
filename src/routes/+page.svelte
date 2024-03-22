@@ -4,7 +4,7 @@
         username: string;
         password: string;
     }
-            import Password from "$lib/password.svelte";
+        import Password from "$lib/password.svelte";
     import Adder from "$lib/adder.svelte";
     import Fuse from "fuse.js";
     import { invoke, type InvokeArgs } from "@tauri-apps/api/tauri";
@@ -100,7 +100,7 @@
 </script>
 
 <nav
-    class="flex absolute top-0 flex-row items-center px-2 pt-4 pb-2 w-full bg-slate-600/10"
+    class="flex top-0 fixed flex-row items-center px-2 pt-4 pb-2 w-full bg-[#060607] z-20"
 >
     <button
         class="flex gap-2 items-center p-4 font-mono text-white duration-200 hover:scale-110"

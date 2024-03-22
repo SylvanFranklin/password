@@ -19,7 +19,9 @@ pub fn generate_password(length: u8) -> String {
 // score between 0 and 4
 #[tauri::command]
 pub fn password_strength(password: &str) -> u8 {
-    let result = zxcvbn(password, &[]).unwrap();
+    let result = match zxcvbn(password, &[]) {
+        Ok(result) => result,
+        Err(_) => return 0
+    };
     result.score()
 }
-
