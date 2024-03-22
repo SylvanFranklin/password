@@ -4,7 +4,7 @@
         username: string;
         password: string;
     }
-        import Password from "$lib/password.svelte";
+    import Password from "$lib/password.svelte";
     import Adder from "$lib/adder.svelte";
     import Fuse from "fuse.js";
     import { invoke, type InvokeArgs } from "@tauri-apps/api/tauri";
@@ -167,7 +167,6 @@
 
 <span class="mt-44 w-full sm:w-4/5">
     <ol class="grid gap-6">
-
         {#each highlightedSearchItems as password, index}
             <Password
                 {password}

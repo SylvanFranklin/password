@@ -25,8 +25,6 @@ pub fn password_strength(password: &str) -> u8 {
     };
     result.score()
 }
-<<<<<<< ours
-=======
 
 
 // WIP Implementation
