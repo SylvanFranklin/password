@@ -1,8 +1,8 @@
 use serde::{Deserialize, Serialize};
 use serde_json::{self, json};
+use std::env;
 use std::fs::{File, OpenOptions};
 use std::io::{self, prelude::*, SeekFrom};
-use std::env;
 // use tauri::dialog::{Dialog, DialogBuilder}; //file popup window
 
 // encryption
@@ -28,7 +28,10 @@ impl PasswordEntry {
 #[tauri::command]
 pub fn read_passwords() -> io::Result<Vec<PasswordEntry>> {
     let home_dir = env::var("HOME").expect("Failed to get home directory");
-    let file = File::open(&format!("{}/Desktop/PasswordManager/passwords.json", home_dir))?;
+    let file = File::open(&format!(
+        "{}/.config/PasswordManager/passwords.json",
+        home_dir
+    ))?;
     let reader = io::BufReader::new(file);
     let passwords: Vec<PasswordEntry> = serde_json::from_reader(reader)?;
     Ok(passwords)
@@ -39,7 +42,10 @@ pub fn write_passwords(passwords: &[PasswordEntry]) -> io::Result<()> {
     let file = OpenOptions::new()
         .write(true)
         .truncate(true)
-        .open(&format!("{}/Desktop/PasswordManager/passwords.json", home_dir))?;
+        .open(&format!(
+            "{}/.config/PasswordManager/passwords.json",
+            home_dir
+        ))?;
 
     serde_json::to_writer_pretty(file, &passwords)?;
     Ok(())
@@ -76,9 +82,9 @@ pub fn get_all_items(encryption_password: &str) -> Vec<String> {
     let passwords = get_all_passwords().unwrap_or_else(|_| vec![]);
     for entry in passwords {
         let (appname, username, password) = get_data(entry);
-        let appname: String= aes_decrypt(encryption_password.as_bytes(), &appname);
-        let username: String= aes_decrypt(encryption_password.as_bytes(), &username);
-        let password: String= aes_decrypt(encryption_password.as_bytes(), &password);
+        let appname: String = aes_decrypt(encryption_password.as_bytes(), &appname);
+        let username: String = aes_decrypt(encryption_password.as_bytes(), &username);
+        let password: String = aes_decrypt(encryption_password.as_bytes(), &password);
         let json_data = json!({
             "appname": appname,
             "username": username,
@@ -96,9 +102,9 @@ pub fn get_all_passwords_struct(encryption_password: &str) -> Vec<PasswordEntry>
     let passwords = get_all_passwords().unwrap_or_else(|_| vec![]);
     for entry in passwords {
         let (appname, username, password) = get_data(entry);
-        let appname: String= aes_decrypt(encryption_password.as_bytes(), &appname);
-        let username: String= aes_decrypt(encryption_password.as_bytes(), &username);
-        let password: String= aes_decrypt(encryption_password.as_bytes(), &password);
+        let appname: String = aes_decrypt(encryption_password.as_bytes(), &appname);
+        let username: String = aes_decrypt(encryption_password.as_bytes(), &username);
+        let password: String = aes_decrypt(encryption_password.as_bytes(), &password);
         let new_entry = PasswordEntry::new(appname, username, password);
         items.push(new_entry);
     }
@@ -117,7 +123,12 @@ pub fn check_if_duplicate(appname: &str, username: &str, encryption_password: &s
 }
 
 #[tauri::command]
-pub fn password_entry_from_frontend(appname: &str, username: &str, password: &str, encryption_password: &str) {
+pub fn password_entry_from_frontend(
+    appname: &str,
+    username: &str,
+    password: &str,
+    encryption_password: &str,
+) {
     //check if entry is a duplicate
 
     if check_if_duplicate(appname, username, encryption_password) {
@@ -129,7 +140,7 @@ pub fn password_entry_from_frontend(appname: &str, username: &str, password: &st
     let appname_encrypted = aes_encrypt(encryption_password.as_bytes(), appname.as_bytes());
     let username_encrypted = aes_encrypt(encryption_password.as_bytes(), username.as_bytes());
     let password_encrypted = aes_encrypt(encryption_password.as_bytes(), password.as_bytes());
-    
+
     let new_entry = PasswordEntry {
         appname: appname_encrypted,
         username: username_encrypted,
@@ -156,7 +167,6 @@ pub fn password_entry_from_frontend(appname: &str, username: &str, password: &st
 //    let (appname, username, password) = get_data(entry);
 //    println!("Appname: {}\nUsername: {}\nPassword: {}\n", appname, username, password);
 //}
-
 
 // -------------------------------------------------------
 // Dialog Popups
